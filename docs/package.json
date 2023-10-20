@@ -11,9 +11,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vitepress-demo-preview/component": "^2.3.2",
     "@vitepress-demo-preview/plugin": "^1.2.2",
-    "vitepress": "1.0.0-beta.7"
+    "vitepress": "1.0.0-beta.3",
+    "vitepress-theme-demoblock": "^3.0.3"
   }
 }

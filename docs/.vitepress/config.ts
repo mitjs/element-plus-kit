@@ -1,13 +1,16 @@
 
 import { defineConfig } from 'vitepress'
-import { componentPreview, containerPreview } from "@vitepress-demo-preview/plugin"
+// import { componentPreview, containerPreview } from "@vitepress-demo-preview/plugin"
+import path from 'path'
+import { demoblockPlugin, demoblockVitePlugin } from 'vitepress-theme-demoblock'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import sidebar from './config/sidebar'
 import nav from './config/nav'
-import vueJsx from '@vitejs/plugin-vue-jsx'
+
 export default defineConfig({
     base: '/',
-    title: 'vue3 组件库',
-    description: 'vue3 组件库',
+    title: 'ElementPlus 神器',
+    description: '基于 ElementPlus 的组件生成器',
     // head: [
     //     ['meta', { name: 'theme-color', content: '#646cff' }],
     //     ["meta", { name: 'referrer', content: 'no-referrer' }]
@@ -25,8 +28,18 @@ export default defineConfig({
         },
         lineNumbers: true,
         config(md) {
-            md.use(componentPreview)
-            md.use(containerPreview)
+            // md.use(componentPreview)
+            // md.use(containerPreview)
+            md.use(demoblockPlugin)
         },
-    }
+
+    },
+    vite: {
+        plugins: [demoblockVitePlugin(), vueJsx()],
+        resolve: {
+            alias: {
+                '@alias': path.resolve(__dirname, '../')
+            }
+        }
+    },
 })
