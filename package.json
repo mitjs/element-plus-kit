@@ -1,0 +1,21 @@
+{
+  "name": "element-plus-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "play": "pnpm -C play dev",
+    "docs:dev": "pnpm -C docs dev",
+    "docs:build": "pnpm -C docs build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "18.16.0",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vue": "^3.3.5"
+  }
+}
