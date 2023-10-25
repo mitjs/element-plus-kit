@@ -12,8 +12,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@types/node": "18.16.0",
     "@vitejs/plugin-vue": "^4.4.0",
+    "@vueuse/core": "^10.5.0",
+    "element-plus": "^2.4.1",
+    "sass": "^1.69.4",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vue": "^3.3.5"

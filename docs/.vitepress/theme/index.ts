@@ -1,12 +1,20 @@
-import theme from 'vitepress/theme'
-// import { AntDesignContainer } from '@vitepress-demo-preview/component'
-// import '@vitepress-demo-preview/component/dist/style.css'
-import 'vitepress-theme-demoblock/dist/theme/styles/index.css'
+import theme from "vitepress/theme";
+
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+import "element-plus/theme-chalk/dark/css-vars.css";
+// 图标并进行全局注册
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import { VPDemo } from "../vitepress";
 
 export default {
-    ...theme,
-    enhanceApp({ app }) {
-        // app.use(demoblockPlugin)
-        // app.component('demo-preview', AntDesignContainer)
+  ...theme,
+  enhanceApp({ app }) {
+    app.use(ElementPlus);
+    // 注册所有图标
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      app.component(key, component);
     }
-}
+    app.component("Demo", VPDemo);
+  },
+};
