@@ -1,3 +1,4 @@
 export default [
-    { text: "组件", link: "/components/form-generator/index", activeMatch: "^/components/" },
-]
+  { text: "指南", link: "/guide/index", activeMatch: "^/guide/" },
+  { text: "组件", link: "/components/index", activeMatch: "^/components/" },
+];

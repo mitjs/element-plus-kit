@@ -10,7 +10,7 @@ import { mdPlugin } from "./config/plugins";
 
 export default defineConfig({
   base: "/",
-  title: "ElementPlus 神器",
+  title: "Element-Plus Kit",
   description: "基于 ElementPlus 的组件生成器",
   // head: [
   //     ['meta', { name: 'theme-color', content: '#646cff' }],

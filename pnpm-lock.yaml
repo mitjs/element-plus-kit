@@ -41,12 +41,6 @@ importers:
       '@vitejs/plugin-vue-jsx':
         specifier: ^3.0.1
         version: 3.0.1(vite@4.5.0)(vue@3.3.5)
-      '@vitepress-demo-preview/component':
-        specifier: ^2.3.2
-        version: 2.3.2(vitepress@1.0.0-beta.3)(vue@3.3.5)
-      '@vitepress-demo-preview/plugin':
-        specifier: ^1.2.2
-        version: 1.2.2(markdown-it-container@3.0.0)(vitepress@1.0.0-beta.3)(vue@3.3.5)
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
@@ -796,10 +790,6 @@ packages:
       - vue
     dev: true
 
-  /@flypeng/tool@5.4.0:
-    resolution: {integrity: sha512-Iyg6zk1vxBw+EGLAwT2ugzI8/3clw/funLWhFx8y7j3vn6mkv9TlJ1ik8RJa7QjIh3HcgQTtAXNmviaUdWMdqg==}
-    dev: true
-
   /@jridgewell/gen-mapping@0.3.3:
     resolution: {integrity: sha512-HLhSWOLRi875zjjMG/r+Nv0oCW8umGb0BgEhyX3dDX3egwZtB8PqLnjz3yedt8R5StBrzcg4aBpnh8UA9D1BoQ==}
     engines: {node: '>=6.0.0'}
@@ -963,31 +953,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.5.0(@types/node@18.16.0)(sass@1.69.4)
-      vue: 3.3.5(typescript@5.2.2)
-    dev: true
-
-  /@vitepress-demo-preview/component@2.3.2(vitepress@1.0.0-beta.3)(vue@3.3.5):
-    resolution: {integrity: sha512-+GCYl3eHA7uoBGZyH2nTP1uab6pHFGEdykj5bSz4Nt2carH05xomBf18kBecuK1SncSqB7kWV/6JHT2Y349NbQ==}
-    peerDependencies:
-      vitepress: '*'
-      vue: ^3.2.0
-    dependencies:
-      vitepress: 1.0.0-beta.3(@algolia/client-search@4.20.0)(search-insights@2.9.0)
-      vue: 3.3.5
-    dev: true
-
-  /@vitepress-demo-preview/plugin@1.2.2(markdown-it-container@3.0.0)(vitepress@1.0.0-beta.3)(vue@3.3.5):
-    resolution: {integrity: sha512-Gpw5fmiv8UkYStqNRcVr235NAVrXzO6MKdeuWbqvIoKzS2uLb7nhm4aL+rlXGxKOWP+UcHnpg/fl3+brUUejTw==}
-    peerDependencies:
-      markdown-it-container: ^3.0.0
-      vitepress: '*'
-      vue: ^3.2.0
-    dependencies:
-      '@flypeng/tool': 5.4.0
-      markdown-it: 13.0.2
-      markdown-it-container: 3.0.0
-      vitepress: 1.0.0-beta.3(@algolia/client-search@4.20.0)(search-insights@2.9.0)
+      vite: 4.5.0
       vue: 3.3.5
     dev: true
 
@@ -1094,7 +1060,7 @@ packages:
     dependencies:
       '@vue/compiler-ssr': 3.3.5
       '@vue/shared': 3.3.5
-      vue: 3.3.5(typescript@5.2.2)
+      vue: 3.3.5
     dev: true
 
   /@vue/shared@3.3.5:
@@ -2540,7 +2506,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue: 3.3.5(typescript@5.2.2)
+      vue: 3.3.5
     dev: true
 
   /vue@3.3.5:
