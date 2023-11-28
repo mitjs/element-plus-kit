@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext", // 目标ECMAScript版本
+    "module": "esnext", // 模块系统，通常与构建工具保持一致
+    "strict": true, // 启用严格类型检查
+    "jsx": "preserve", // 使用 preserve，不编译JSX到React代码
+    "moduleResolution": "node", // 模块解析策略
+    "esModuleInterop": true, // 启用ES模块互操作性
+    "skipLibCheck": true, // 跳过对声明文件的检查
+    "forceConsistentCasingInFileNames": true, // 文件名大小写一致性
+    "allowSyntheticDefaultImports": true // 允许默认导入
+    // "strictPropertyInitialization": false, // 关闭强制属性初始化
+    // "strictNullChecks": false // 关闭强制非空检查
+  },
+  "include": ["./**/*.tsx", "./**/*.ts", "./**/*.d.ts"],
+  "exclude": ["node_modules"]
+}

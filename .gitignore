@@ -1,2 +1,4 @@
 node_modules
 cache
+
+auto-imports.d.ts
