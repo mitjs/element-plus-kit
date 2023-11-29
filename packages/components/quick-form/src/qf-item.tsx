@@ -1,7 +1,7 @@
 import { defineComponent, toRefs, inject, renderSlot, effect } from 'vue'
 import QFormComponent from './qf-component'
 import QFormButton from './qf-button'
-import type { ItemRowProps, } from '../types'
+import type { ItemRowProps, } from './types'
 import { QFItemProps } from './props'
 
 export default defineComponent({

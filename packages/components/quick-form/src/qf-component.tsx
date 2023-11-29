@@ -1,5 +1,5 @@
 import { defineComponent, renderSlot, toRefs, inject } from "vue";
-import type { IOptionRow, DatePickerType } from '../types'
+import type { IOptionRow, DatePickerType } from './types'
 import { defaultPlaceholder } from './utils'
 import { QFComponentProps } from './props'
 export default defineComponent({

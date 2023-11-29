@@ -6,7 +6,7 @@ import type {
   Arrayable,
   BtnType,
   BtnTypeObj,
-} from "../types";
+} from "./types";
 
 /**
  * form 组件 props参数

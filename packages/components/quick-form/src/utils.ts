@@ -1,4 +1,4 @@
-import type { CompTypes, ItemRowProps } from "../types";
+import type { CompTypes, ItemRowProps } from "./types";
 
 /**
  * 查找第一个带Col的表单项

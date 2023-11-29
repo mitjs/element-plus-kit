@@ -1,6 +1,6 @@
 import { defineComponent, ref, toRefs, defineExpose, watch, provide, onMounted, computed, effect, reactive, VNode } from 'vue'
 import QFormItem from './qf-item'
-import type { ItemRowProps, Arrayable, BtnType, BtnTypeObj } from '../types'
+import type { ItemRowProps, Arrayable, BtnType, BtnTypeObj } from './types'
 import type { FormInstance, FormValidateCallback, FormItemProp, FormRules } from 'element-plus'
 import { findFirstHaveColFormItem } from './utils'
 import { QFromProps } from './props'

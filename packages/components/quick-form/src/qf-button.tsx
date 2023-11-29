@@ -1,5 +1,5 @@
 import { PropType, defineComponent, inject } from "vue";
-import type { BtnType, BtnTypeObj } from '../types'
+import type { BtnType, BtnTypeObj } from './types'
 
 const DefaultBtns: BtnType[] = ['search', 'reset', 'cancel', 'submit']
 
