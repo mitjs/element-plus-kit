@@ -1,1 +1,2 @@
-export { default as FormGenerator } from "./form-generator";
+export { default as QuickForm } from "./quick-form";
+export { default as QuickTable } from "./quick-table";

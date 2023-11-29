@@ -1,12 +1,16 @@
-import QuickForm from "./form-generator";
-const components = [QuickForm];
+import type { App } from "vue";
 
-const install = (Vue) => {
+import QuickForm from "./quick-form";
+import QuickTable from "./quick-table";
+
+const components = [QuickForm, QuickTable];
+
+const install = (Vue: App) => {
   components.forEach((comp) => {
     Vue.component(comp.name, comp);
   });
 };
 
-export { QuickForm };
+export { QuickForm, QuickTable };
 
 export default install;

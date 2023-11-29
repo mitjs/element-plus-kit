@@ -27,33 +27,17 @@ export default defineComponent({
     },
     setup(props) {
         const { change }: Record<string, any> = inject('formObserver') as any
-        // console.log('=============================================');
         const onChange = (e: any, prop: string) => {
             change(e, prop)
-        }
-        const onInput = (e: any, prop: string) => {
-            console.log('onInput', e, prop);
-        }
-        const onFocus = (e: any, prop: string) => {
-            console.log('onFocus', e, prop);
-        }
-        const onBlur = (e: any, prop: string) => {
-            console.log('onBlur', e, prop);
-        }
-        const onClear = (e: any, prop: string) => {
-            console.log('onClear', e, prop);
         }
         return {
             ...toRefs(props),
             onChange,
-            onInput, onFocus,
-            onBlur,
-            onClear
         }
     },
     render() {
         const { type, formValue, prop, options, component }: Record<string, any> = this;
-        const { onChange, onInput, onFocus, onBlur, onClear } = this;
+        const { onChange } = this;
 
         const compRenderer: any = {
             'input': () => {

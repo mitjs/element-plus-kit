@@ -4,6 +4,7 @@
         <QuickForm ref="formRef" :model="FormValue" :rules="rules" :form-options="formOptions" :gutter="20" :col="12"
             label-suffix="：" @validate="onValidate" @change="onChange">
         </QuickForm>
+        <QuickTable></QuickTable>
         <!--  :rules="rules"  -->
         <!-- <form1></form1> -->
     </div>
@@ -13,7 +14,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import type { FormRules, } from 'element-plus'
-import { QuickForm } from 'meetjs-design'
+import { QuickForm, QuickTable } from 'meetjs-design'
 import form1 from './from.vue'
 
 const FormValue = ref({
