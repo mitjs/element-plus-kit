@@ -4,6 +4,7 @@ import type {
   InputNumberProps,
   DatePickerProps,
 } from "element-plus";
+import { VNode } from "vue";
 
 export type CompTypes =
   | "input"
@@ -31,11 +32,11 @@ export type RenderComp<T = any> = {
   [C in CompTypes]?: () => JSX.Element | T;
 };
 
-export type ItemLabel = string;
+// export type ItemLabel = string | ()=>VNode;
 
 export interface ItemRowProps {
   type: CompTypes;
-  label: ItemLabel;
+  label: () => VNode | string;
   prop: string;
   col?: number;
   options: Array<IOptionRow>;

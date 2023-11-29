@@ -2,8 +2,8 @@ import { PropType, defineComponent, inject } from "vue";
 import type { BtnType, BtnTypeObj } from '../types'
 
 const DefaultBtns: BtnType[] = ['search', 'reset', 'cancel', 'submit']
-export default defineComponent({
 
+export default defineComponent({
     setup(props) {
         const { buttons = [], validate, btnEvent }: Record<string, any> = inject('formObserver') as any
         const btns: BtnType[] = DefaultBtns.filter(item => buttons.includes(item))

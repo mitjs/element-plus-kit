@@ -1,37 +1,13 @@
-import { defineComponent, ref, toRefs, defineExpose, watch, provide, PropType, onMounted, computed, effect, reactive, VNode } from 'vue'
+import { defineComponent, ref, toRefs, defineExpose, watch, provide, onMounted, computed, effect, reactive, VNode } from 'vue'
 import QFormItem from './qf-item'
 import type { ItemRowProps, Arrayable, BtnType, BtnTypeObj } from '../types'
-import type { FormInstance, FormValidateCallback, FormValidationResult, FormItemProp, FormRules } from 'element-plus'
-
-const Props = {
-    model: {
-        type: Object,
-        required: true,
-        default: () => { }
-    },
-    rules: {
-        type: Object,
-        required: false,
-        default: () => { }
-    },
-    required: Boolean,
-    gutter: Number,
-    col: Number,
-    formOptions: {
-        type: Array as PropType<Array<ItemRowProps>>,
-        required: true,
-        default: () => []
-    },
-    buttons: {
-        type: Array as PropType<Array<BtnTypeObj>>,
-        required: false,
-        default: () => []
-    }
-}
+import type { FormInstance, FormValidateCallback, FormItemProp, FormRules } from 'element-plus'
+import { findFirstHaveColFormItem } from './utils'
+import { QFromProps } from './props'
 
 export default defineComponent({
     name: 'FormGenerator',
-    props: Props,
+    props: QFromProps,
     emits: ['change', 'validate', 'search', 'reset', 'cancel', 'submit'],
     setup(props, { attrs, slots, emit, expose }) {
         const { col, buttons, formOptions, required, rules } = toRefs(props);
@@ -48,7 +24,7 @@ export default defineComponent({
         effect(() => {
             if (required.value && !rules.value) {
                 formOptions.value.forEach(item => {
-                    newRules[item.prop] = [{ required: true, message: `${item.label}不能为空`, trigger: ['blur', 'change'] }]
+                    newRules[item.prop] = [{ required: true, message: `${typeof item.label == 'string' ? item.label : item.prop}不能为空`, trigger: ['blur', 'change'] }]
                 })
             } else {
                 newRules = { ...rules.value }
@@ -114,7 +90,7 @@ export default defineComponent({
         }
     },
     render() {
-        const { model, newRules, formOptions, formRef, isLayout, attrs, gutter, globalCol, onValidate } = this;
+        const { model, newRules, formOptions, isLayout, attrs, gutter, globalCol, onValidate } = this;
 
         // 渲染formitem项
         const rowRenderer = () => {
@@ -131,10 +107,3 @@ export default defineComponent({
     },
 })
 
-
-// 查找第一个带Col的表单项
-const findFirstHaveColFormItem = (list: ItemRowProps[]) => {
-    const row = list.find(item => item.col)
-    return row ? row.col : 0
-
-}

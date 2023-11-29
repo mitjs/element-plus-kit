@@ -1,11 +1,12 @@
 <template>
     <div class="">
         <h1>12312312</h1>
-        <QuickForm ref="formRef" :model="FormValue" :rules="rules" :form-options="formOptions" :gutter="20" :col="12"
-            label-suffix="：" @validate="onValidate" @change="onChange" :buttons="['search']" @search="onSearch">
+        <QuickForm ref="formRef" :model="FormValue" :form-options="formOptions" :gutter="20" :col="12" label-suffix="："
+            @validate="onValidate" required @change="onChange" :buttons="['search']" @search="onSearch">
             <template #count11>
                 <h1>111</h1>
             </template>
+
             <a href="111">1111</a>
         </QuickForm>
         <!-- <QuickTable></QuickTable> -->
@@ -15,8 +16,8 @@
 </template>
 
 
-<script lang="tsx" setup>
-import { ref, reactive } from 'vue'
+<script lang="ts" setup>
+import { ref, reactive, h } from 'vue'
 import type { FormRules, } from 'element-plus'
 import { QuickForm, QuickTable } from 'meetjs-design'
 import form1 from './from.vue'
@@ -31,13 +32,16 @@ const opts2 = [{ label: '22', value: '2' }, { label: '33', value: '3' }]
 const opts = ref(opts1)
 const formOptions = ref([
     {
-        type: 'input', label: '', prop: 'name', component: {
+        type: 'input', label: () => {
+            return h('h3', { class: 'cc' }, 111,)
+        }, prop: 'name', component: {
+            type: 'textarea',
             onInput: () => {
                 console.log('input', 8789789);
             },
             onBlur: (e) => {
                 console.log('onBlur', e);
-            }
+            },
         }
     },
     { type: 'input-number', label: '年龄', prop: 'count', },
@@ -149,4 +153,10 @@ setTimeout(() => {
 //     console.log(val)
 // })
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep() {
+    .cc {
+        color: red;
+    }
+}
+</style>
