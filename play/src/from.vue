@@ -16,8 +16,8 @@
         <el-form-item label="Activity time" required>
             <el-col :span="11">
                 <el-form-item prop="date1">
-                    <el-date-picker v-model="ruleForm.date1" type="date" label="Pick a date" placeholder="Pick a date"
-                        style="width: 100%" />
+                    <el-date-picker v-model="ruleForm.date1" type="week" value-format="YYYY-ww" format="YYYY-ww"
+                        label="Pick a date" placeholder="Pick a date" style="width: 100%" />
                 </el-form-item>
             </el-col>
             <el-col class="text-center" :span="2">
@@ -148,6 +148,8 @@ const namRules = reactive([
     { min: 5, max: 10, message: 'Length should be 5 to 10', trigger: 'blur' },
 ])
 const submitForm = async (formEl: FormInstance | undefined) => {
+    console.log('ruleForm', ruleForm);
+
     if (!formEl) return
     await formEl.validate((valid, fields) => {
         if (valid) {

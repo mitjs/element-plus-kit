@@ -1,4 +1,9 @@
-import type { formItemProps, InputProps, InputNumberProps } from "element-plus";
+import type {
+  formItemProps,
+  InputProps,
+  InputNumberProps,
+  DatePickerProps,
+} from "element-plus";
 
 export type CompTypes =
   | "input"
@@ -21,6 +26,7 @@ export type CompTypes =
 // export type CompInstance<T> = {
 //   [K in CompTypes]: InstanceType<typeof T>;
 // };
+
 export type RenderComp<T = any> = {
   [C in CompTypes]?: () => JSX.Element | T;
 };
@@ -49,10 +55,22 @@ export interface IOptionRow {
  * 按钮组类型声明
  */
 export type BtnType = "search" | "reset" | "cancel" | "submit";
-export interface BtnTypeRow {
+export interface BtnTypeLabel {
   label: string;
   type: BtnType;
   icon?: string;
 }
 export type BtnTypeObj = BtnTypeLabel | BtnType;
 export type Arrayable<T> = T | T[];
+
+// 日期类型格式
+export type DatePickerType =
+  | "date"
+  | "dates"
+  | "year"
+  | "month"
+  | "week"
+  | "datetime"
+  | "daterange"
+  | "monthrange"
+  | "datetimerange";

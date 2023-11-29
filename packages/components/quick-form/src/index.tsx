@@ -1,6 +1,6 @@
-import { defineComponent, ref, toRefs, defineExpose, watch, provide, PropType, onMounted, computed, effect, reactive, } from 'vue'
-import FormGroup from './form-group'
-import type { ItemRowProps, Arrayable, BtnTypeObj } from '../types'
+import { defineComponent, ref, toRefs, defineExpose, watch, provide, PropType, onMounted, computed, effect, reactive, VNode } from 'vue'
+import QFormItem from './qf-item'
+import type { ItemRowProps, Arrayable, BtnType, BtnTypeObj } from '../types'
 import type { FormInstance, FormValidateCallback, FormValidationResult, FormItemProp, FormRules } from 'element-plus'
 
 const Props = {
@@ -32,9 +32,10 @@ const Props = {
 export default defineComponent({
     name: 'FormGenerator',
     props: Props,
-    emits: ['change', 'validate'],
+    emits: ['change', 'validate', 'search', 'reset', 'cancel', 'submit'],
     setup(props, { attrs, slots, emit, expose }) {
         const { col, buttons, formOptions, required, rules } = toRefs(props);
+        console.log('slots', slots);
 
         const formRef = ref<FormInstance>()
         let newRules = reactive<FormRules<Record<string, any>>>({})
@@ -60,6 +61,9 @@ export default defineComponent({
         }
         const onValidate = (prop: FormItemProp, isValid: boolean, message: string): void => {
             emit('validate', prop, isValid, message)
+        }
+        const onBtnEvent = (event: BtnType): void => {
+            emit(event)
         }
         /* ================================== form 事件触发 end ===================================== */
 
@@ -87,12 +91,16 @@ export default defineComponent({
 
         provide<{
             buttons: Arrayable<BtnTypeObj>;
+            formSlots: Record<string, any>;
             validate: (callback?: FormValidateCallback) => Promise<void>;
-            change: (value: any, prop: string,) => void
+            change: (value: any, prop: string) => void
+            btnEvent: (event: BtnType) => void
         }>('formObserver', {
             buttons: buttons.value,
+            formSlots: slots,
             validate: validate,
-            change: onChange
+            change: onChange,
+            btnEvent: onBtnEvent
         })
 
         return {
@@ -111,7 +119,7 @@ export default defineComponent({
         // 渲染formitem项
         const rowRenderer = () => {
             return <>
-                <FormGroup formValue={model} formOptions={formOptions} isLayout={isLayout} globalCol={globalCol} ></FormGroup>
+                <QFormItem formValue={model} formOptions={formOptions} isLayout={isLayout} globalCol={globalCol} ></QFormItem>
             </>
         }
 

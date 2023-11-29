@@ -1,6 +1,6 @@
 import { PropType, defineComponent, toRefs, inject } from 'vue'
-import AsyncComponent from './async-component'
-import ButtonGroup from './button-group'
+import QFormComponent from './qf-component'
+import QFormButton from './qf-button'
 import type { CompTypes, IOptionRow, ItemRowProps, BtnTypeObj } from '../types'
 export default defineComponent({
     props: {
@@ -19,30 +19,26 @@ export default defineComponent({
 
     },
     setup(props, { attrs }) {
-        // const { formValue, formOptions, isLayout, required, globalCol, } = toRefs(props);
-        const { buttons = [] }: Record<string, any> = inject('formObserver') as any
+        const { buttons = [], formSlots }: Record<string, any> = inject('formObserver') as any
         return {
-            ...toRefs(props), isButtons: buttons.length,
+            ...toRefs(props), isButtons: buttons.length, formSlots
         }
     },
     render() {
-        const { formOptions, formValue, isLayout, required, globalCol, isButtons } = this;
+        const { formOptions, formValue, isLayout, required, globalCol, isButtons, formSlots } = this;
 
         // 按钮组渲染器
         const buttonGroupRenderer = () => {
             return <el-form-item >
-                <ButtonGroup></ButtonGroup>
+                <QFormButton></QFormButton>
             </el-form-item>
         }
 
         // 组件渲染器
         const componentRenderer = (item: ItemRowProps) => {
             const { label, prop, formItem, type, options, component } = item
-            console.log('required', required);
-
-            // rules={handleRules(required, item)}
             return <el-form-item label={label} prop={prop} {...formItem}   >
-                <AsyncComponent type={type} prop={prop} formValue={formValue} options={options} component={component} />
+                <QFormComponent type={type} prop={prop} formValue={formValue} options={options} component={component} />
             </el-form-item>
         }
 
@@ -54,7 +50,7 @@ export default defineComponent({
                     return isLayout ? <el-col span={col || globalCol}>{componentRenderer(item)}</el-col> : componentRenderer(item)
                 })
             }
-            {isButtons ? buttonGroupRenderer() : null}
+            {formSlots.default ? formSlots.default() : isButtons ? buttonGroupRenderer() : null}
         </>
 
         return <>
@@ -63,18 +59,18 @@ export default defineComponent({
     },
 })
 
-const handleRules = (required: boolean, row: Record<string, any>) => {
-    if (!required) return [];
-    const { formItem, label, } = row
+// const handleRules = (required: boolean, row: Record<string, any>) => {
+//     if (!required) return [];
+//     const { formItem, label, } = row
 
-    const commonRules = [{ required: true, message: `${label}不能为空`, trigger: ['blur', 'change'] }]
+//     const commonRules = [{ required: true, message: `${label}不能为空`, trigger: ['blur', 'change'] }]
 
-    if (formItem && formItem.rules) {
-        return [...formItem.rules, ...commonRules]
-    } else {
-        return commonRules
-    }
-}
+//     if (formItem && formItem.rules) {
+//         return [...formItem.rules, ...commonRules]
+//     } else {
+//         return commonRules
+//     }
+// }
 
 /* 默认文案 */
 // export const defaultPlaceholder = (

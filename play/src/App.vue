@@ -2,16 +2,20 @@
     <div class="">
         <h1>12312312</h1>
         <QuickForm ref="formRef" :model="FormValue" :rules="rules" :form-options="formOptions" :gutter="20" :col="12"
-            label-suffix="：" @validate="onValidate" @change="onChange">
+            label-suffix="：" @validate="onValidate" @change="onChange" :buttons="['search']" @search="onSearch">
+            <template #count11>
+                <h1>111</h1>
+            </template>
+            <a href="111">1111</a>
         </QuickForm>
-        <QuickTable></QuickTable>
+        <!-- <QuickTable></QuickTable> -->
         <!--  :rules="rules"  -->
         <!-- <form1></form1> -->
     </div>
 </template>
 
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import { ref, reactive } from 'vue'
 import type { FormRules, } from 'element-plus'
 import { QuickForm, QuickTable } from 'meetjs-design'
@@ -19,14 +23,15 @@ import form1 from './from.vue'
 
 const FormValue = ref({
     name: '',
-    sex: 1
+    sex: 1,
+    count10: '我是text'
 })
 const opts1 = [{ label: '11', value: '111' }]
 const opts2 = [{ label: '22', value: '2' }, { label: '33', value: '3' }]
 const opts = ref(opts1)
 const formOptions = ref([
     {
-        type: 'input', label: '姓名', prop: 'name', component: {
+        type: 'input', label: '', prop: 'name', component: {
             onInput: () => {
                 console.log('input', 8789789);
             },
@@ -37,7 +42,18 @@ const formOptions = ref([
     },
     { type: 'input-number', label: '年龄', prop: 'count', },
     { type: 'radio', label: '性别', prop: 'sex', options: [{ label: '12', value: 1 }, { label: '22', value: 2 }], },
-    { type: 'select', label: '爱好', prop: 'region', options: opts.value }
+    { type: 'select', label: '爱好', prop: 'region', options: opts.value },
+    { type: 'select-v2', label: 'select-v2', prop: 'count1', options: opts.value },
+    { type: 'cascader', label: 'cascader', prop: 'count2', },
+    { type: 'time-select', label: 'time-select', prop: 'count3', },
+    { type: 'date-picker', label: 'date-picker', prop: 'count4', component: { type: "week" } },
+    { type: 'time-picker', label: 'time-picker', prop: 'count5', },
+    { type: 'color-picker', label: 'color-picker', prop: 'count6', },
+    { type: 'rate', label: 'rate', prop: 'count7', },
+    { type: 'slider', label: 'slider', prop: 'count8', },
+    { type: 'switch', label: 'switch', prop: 'count9', },
+    { type: 'text', label: 'text', prop: 'count10', },
+    { type: 'slot', label: 'slot', prop: 'count11', },
 ])
 const formRef = ref<any>(null)
 
@@ -118,7 +134,10 @@ const onValidate = (prop: any, isValid: boolean, message: string) => {
 const onChange = (value: any, prop: string) => {
     console.log('onChange====', value, prop);
 }
+const onSearch = () => {
+    console.log(FormValue.value);
 
+}
 setTimeout(() => {
     console.log('formRef', formRef.value);
     FormValue.value.name = '我爱你中国'
