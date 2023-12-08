@@ -1,26 +1,64 @@
-import { defineComponent, toRefs, inject, renderSlot, effect } from 'vue'
+import { defineComponent, toRefs, inject, renderSlot, shallowRef, effect } from 'vue'
 import QFormComponent from './qf-component'
 import QFormButton from './qf-button'
-import type { ItemRowProps, } from './types'
+import type { ItemRowProps, BtnTypeLabel, BtnTypeObj } from './types'
 import { QFItemProps } from './props'
+import { btnsRow, BtnsIconRow } from './constants'
 
 export default defineComponent({
     props: QFItemProps,
     setup(props, { attrs }) {
-        const { buttons = [], formSlots }: Record<string, any> = inject('formObserver') as any
+        const { buttons } = toRefs(props)
+        const { formSlots }: Record<string, any> = inject('formObserver') as any
 
+        const renderbtns = shallowRef<Array<BtnTypeLabel>>([])
+
+        effect(() => {
+            /* 处理有效buttons */
+            if (Array.isArray(buttons.value) && buttons.value.length) {
+                renderbtns.value = []
+                buttons.value.forEach((item: BtnTypeObj) => {
+                    if (typeof item === 'string') {
+                        if (Object.keys(btnsRow).includes(item)) {
+                            renderbtns.value.push({
+                                label: btnsRow[item],
+                                type: item,
+                                icon: BtnsIconRow[item]
+                            })
+                        }
+                    } else {
+                        if (Object.keys(btnsRow).includes(item.type)) {
+                            renderbtns.value.push(item as BtnTypeLabel)
+                        }
+
+                    }
+                })
+            }
+        })
         return {
-            ...toRefs(props), isButtons: buttons.length, formSlots
+            ...toRefs(props), renderbtns, formSlots
         }
     },
     render() {
-        const { formOptions, formValue, isLayout, required, globalCol, isButtons, formSlots } = this;
+        const { formOptions, formValue, isLayout, required, globalCol, renderbtns, formSlots, buttons } = this;
+
 
         // 按钮组渲染器
-        const buttonGroupRenderer = () => {
-            return <el-form-item >
-                <QFormButton></QFormButton>
-            </el-form-item>
+        const buttonRenderer = () => {
+
+            const formButton = <el-form-item><QFormButton buttons={renderbtns}></QFormButton></el-form-item>
+
+            if (formSlots?.default) {
+                const vaildDefaultSlot = formSlots?.default().filter((item: Record<string, any>) => item.type.toString() !== 'Symbol(v-cmt)')
+                if (vaildDefaultSlot.length) {
+                    return formSlots.default()
+                } else {
+                    return formButton
+                }
+            } else {
+                return formButton
+            }
+
         }
 
         // 组件渲染器
@@ -42,7 +80,7 @@ export default defineComponent({
                     return isLayout ? <el-col span={col || globalCol}>{componentRenderer(item)}</el-col> : componentRenderer(item)
                 })
             }
-            {formSlots.default ? formSlots.default() : isButtons ? buttonGroupRenderer() : null}
+            {buttonRenderer()}
         </>
 
         return <>

@@ -6,18 +6,19 @@ import { findFirstHaveColFormItem } from './utils'
 import { QFromProps } from './props'
 
 export default defineComponent({
-    name: 'FormGenerator',
+    name: 'QuickForm',
     props: QFromProps,
     emits: ['change', 'validate', 'search', 'reset', 'cancel', 'submit'],
     setup(props, { attrs, slots, emit, expose }) {
-        const { col, buttons, formOptions, required, rules } = toRefs(props);
-        console.log('slots', slots);
+        const { col, buttons, formOptions, required, rules, resetActiveSearch } = toRefs(props);
 
         const formRef = ref<FormInstance>()
         let newRules = reactive<FormRules<Record<string, any>>>({})
 
         const fCol = findFirstHaveColFormItem(formOptions.value) /* 第一个设置栅格的表单项 */
-        const globalCol = col.value || fCol /* 计算栅格布局值 */
+        const globalCol = computed(() => {
+            return col.value || fCol
+        }) /* 计算栅格布局值 */
         const isLayout = ref(globalCol ? true : false)  /* 是否开启layout布局 */
 
         // 处理 rules 副作用
@@ -38,7 +39,12 @@ export default defineComponent({
         const onValidate = (prop: FormItemProp, isValid: boolean, message: string): void => {
             emit('validate', prop, isValid, message)
         }
+
         const onBtnEvent = (event: BtnType): void => {
+            if (resetActiveSearch.value && event === 'reset') {
+                formRef.value?.resetFields()
+                emit('search')
+            }
             emit(event)
         }
         /* ================================== form 事件触发 end ===================================== */
@@ -66,13 +72,11 @@ export default defineComponent({
         /* ================================== form 实例化方法 end ================================== */
 
         provide<{
-            buttons: Arrayable<BtnTypeObj>;
             formSlots: Record<string, any>;
             validate: (callback?: FormValidateCallback) => Promise<void>;
             change: (value: any, prop: string) => void
             btnEvent: (event: BtnType) => void
         }>('formObserver', {
-            buttons: buttons.value,
             formSlots: slots,
             validate: validate,
             change: onChange,
@@ -90,12 +94,12 @@ export default defineComponent({
         }
     },
     render() {
-        const { model, newRules, formOptions, isLayout, attrs, gutter, globalCol, onValidate } = this;
+        const { model, newRules, formOptions, isLayout, attrs, gutter, globalCol, buttons, onValidate } = this;
 
         // 渲染formitem项
         const rowRenderer = () => {
             return <>
-                <QFormItem formValue={model} formOptions={formOptions} isLayout={isLayout} globalCol={globalCol} ></QFormItem>
+                <QFormItem formValue={model} formOptions={formOptions} isLayout={isLayout} globalCol={globalCol} buttons={buttons}></QFormItem>
             </>
         }
 

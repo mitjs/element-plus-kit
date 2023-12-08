@@ -2,6 +2,9 @@ import { defineComponent, renderSlot, toRefs, inject } from "vue";
 import type { IOptionRow, DatePickerType } from './types'
 import { defaultPlaceholder } from './utils'
 import { QFComponentProps } from './props'
+const defaultStyle = {
+    width: '100%'
+}
 export default defineComponent({
     name: "App",
     props: QFComponentProps,
@@ -27,26 +30,50 @@ export default defineComponent({
                 return <el-input v-model={formValue[prop]} clearable
                     onChange={(value: any) => { onChange(value, prop) }}
                     placeholder={defaultPlaceholder(type, label)}
+                    style={defaultStyle}
                     {...component}>
                 </el-input>
             },
             'input-number': () => {
                 return <el-input-number v-model={formValue[prop]}
                     onChange={(value: any) => { onChange(value, prop) }}
+                    style={defaultStyle}
                     {...component} />
             },
             'select': () => {
                 return <el-select v-model={formValue[prop]} clearable
-                    onChange={(value: any) => { onChange(value, prop) }} placeholder={defaultPlaceholder(type, label)}
+                    placeholder={defaultPlaceholder(type, label)}
+                    onChange={(value: any) => { onChange(value, prop) }}
+                    style={defaultStyle}
                     {...component} >
                     {options.map((item: IOptionRow) => {
                         return <el-option value={item.value} label={item.label}></el-option>
                     })}
                 </el-select>
             },
-            'select-v2': () => <el-select-v2 v-model={formValue[prop]} options={options} placeholder={defaultPlaceholder(type, label)} onChange={(value: any) => { onChange(value, prop) }}  {...component} />,
-            'cascader': () => <el-cascader v-model={formValue[prop]} options={options} placeholder={defaultPlaceholder(type, label)} onChange={(value: any) => { onChange(value, prop) }} {...component} />,
-            'time-select': () => <el-time-select v-model={formValue[prop]} placeholder={defaultPlaceholder(type, label)} onChange={(value: any) => { onChange(value, prop) }} {...component} />,
+            'select-v2': () => {
+                return <el-select-v2 v-model={formValue[prop]}
+                    placeholder={defaultPlaceholder(type, label)}
+                    options={options}
+                    onChange={(value: any) => { onChange(value, prop) }}
+                    style={defaultStyle}
+                    {...component} />
+            },
+            'cascader': () => {
+                return <el-cascader v-model={formValue[prop]}
+                    options={options}
+                    placeholder={defaultPlaceholder(type, label)}
+                    onChange={(value: any) => { onChange(value, prop) }}
+                    style={defaultStyle}
+                    {...component} />
+            },
+            'time-select': () => {
+                return <el-time-select v-model={formValue[prop]}
+                    placeholder={defaultPlaceholder(type, label)}
+                    onChange={(value: any) => { onChange(value, prop) }}
+                    style={defaultStyle}
+                    {...component} />
+            },
             'radio': () => {
                 return <el-radio-group v-model={formValue[prop]} onChange={(value: any) => { onChange(value, prop) }}  {...component} >
                     {options.map((item: IOptionRow) => {
@@ -83,10 +110,11 @@ export default defineComponent({
                     value-format={type && type !== 'week' ? dateFormat[type] : null}
                     placeholder={defaultPlaceholder(this.type, label)}
                     onChange={(value: any) => { onChange(value, prop) }}
+                    style={defaultStyle}
                     {...component} />
             },
             'time-picker': () => {
-                return <el-time-picker v-model={formValue[prop]} placeholder={defaultPlaceholder(type, label)} onChange={(value: any) => { onChange(value, prop) }}  {...component} />
+                return <el-time-picker v-model={formValue[prop]} placeholder={defaultPlaceholder(type, label)} onChange={(value: any) => { onChange(value, prop) }} style={defaultStyle}  {...component} />
             },
             'color-picker': () => {
                 return <el-color-picker v-model={formValue[prop]} onChange={(value: any) => { onChange(value, prop) }}  {...component} />
@@ -95,7 +123,7 @@ export default defineComponent({
                 return <el-rate v-model={formValue[prop]} onChange={(value: any) => { onChange(value, prop) }}  {...component} />
             },
             'slider': () => {
-                return <el-slider v-model={formValue[prop]} onChange={(value: any) => { onChange(value, prop) }}  {...component} />
+                return <el-slider v-model={formValue[prop]} onChange={(value: any) => { onChange(value, prop) }} style={{ ...defaultStyle, minWidth: '100px' }}  {...component} />
             },
             'switch': () => {
                 return <el-switch v-model={formValue[prop]} onChange={(value: any) => { onChange(value, prop) }}  {...component} />

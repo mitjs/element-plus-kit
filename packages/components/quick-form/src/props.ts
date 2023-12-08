@@ -35,6 +35,7 @@ export const QFromProps = {
     required: false,
     default: () => [],
   },
+  resetActiveSearch: Boolean,
 };
 
 /**
@@ -53,6 +54,11 @@ export const QFItemProps = {
   required: Boolean,
   isLayout: Boolean,
   globalCol: Number,
+  buttons: {
+    type: Array as PropType<Array<BtnTypeObj>>,
+    required: false,
+    default: () => [],
+  },
 };
 
 /**

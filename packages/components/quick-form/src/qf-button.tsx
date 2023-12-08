@@ -1,28 +1,37 @@
-import { PropType, defineComponent, inject } from "vue";
-import type { BtnType, BtnTypeObj } from './types'
-
-const DefaultBtns: BtnType[] = ['search', 'reset', 'cancel', 'submit']
+import { defineComponent, effect, inject, shallowRef, ref, toRefs, PropType } from "vue";
+import type { BtnTypeLabel, BtnTypeObj, } from './types'
+import { btnsRow, BtnsIconRow } from './constants'
 
 export default defineComponent({
+    props: {
+        buttons: {
+            type: Array as PropType<Array<BtnTypeLabel>>,
+            required: false,
+            default: () => [],
+        },
+    },
     setup(props) {
-        const { buttons = [], validate, btnEvent }: Record<string, any> = inject('formObserver') as any
-        const btns: BtnType[] = DefaultBtns.filter(item => buttons.includes(item))
+        const { buttons } = toRefs(props)
+        const { validate, btnEvent }: Record<string, any> = inject('formObserver') as any
 
-        const onEvent = (item: BtnTypeObj) => {
+
+        /* 按钮事件 */
+        const onEvent = (item: BtnTypeLabel) => {
             console.log(item);
-            // validate()
-            btnEvent(item)
+
+            btnEvent(item.type)
         }
         return {
-            btns, onEvent
+            ...toRefs(props), onEvent
         }
     },
     render() {
-        const { btns, onEvent } = this;
+        const { buttons, onEvent } = this;
+        console.log(buttons);
 
         return <>
-            {btns.map(item => {
-                return <el-button type="primary" onClick={() => onEvent(item)}>{item}</el-button>
+            {buttons.map((item: BtnTypeLabel) => {
+                return <el-button type="primary" icon={item.icon ? item.icon : null} plain={!['search', 'submit'].includes(item.type)} onClick={() => onEvent(item)}>{item.label}</el-button>
             })}
         </>
     }
