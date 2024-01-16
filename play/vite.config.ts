@@ -7,6 +7,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   return {
     base: "./",
     plugins: [vue(), vueJsx()],
+    server: {
+      host: "0.0.0.0",
+      open: true,
+    },
     resolve: {
       alias: [
         {

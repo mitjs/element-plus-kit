@@ -1,4 +1,4 @@
-import { defineComponent, toRefs, PropType } from "vue";
+import { defineComponent, toRefs, provide, PropType } from "vue";
 import type { ColumnProps } from './types'
 import QtTableColumn from "./qt-table-column";
 import QtColumnItem from './qt-columns/column-item'
@@ -16,22 +16,29 @@ export default defineComponent({
             default: () => []
         }
     },
-    setup(props) {
+    setup(props, { slots }) {
+
+        // console.log('%C', slots);
+        provide<{
+            TableSlots: Record<string, any>;
+        }>('TableObserver', {
+            TableSlots: slots,
+        })
 
         return {
-            ...toRefs(props)
+            ...toRefs(props),
+            slots
         }
     },
     render() {
-        const { data, columns } = this
+        const { data, columns, slots } = this
+        // console.log('slots========', slots);
         return <>
-            <el-table data="data" style="width: 100%">
+            <el-table data={data} >
                 {
                     columns.map((col: ColumnProps) => {
-                        if (col.children && Array.isArray(col.children)) {
-                            return <QtSubColumnItem column={col}></QtSubColumnItem>
-                        }
-                        return <QtColumnItem column={col}></QtColumnItem>
+                        if (col.children && Array.isArray(col.children) && col.children.length) return <QtSubColumnItem column={col}></QtSubColumnItem>
+                        return <QtColumnItem column={col} ></QtColumnItem>
                     })
                 }
             </el-table>

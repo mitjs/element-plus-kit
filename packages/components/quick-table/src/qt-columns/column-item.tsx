@@ -1,4 +1,4 @@
-import { defineComponent, toRefs, PropType } from "vue";
+import { defineComponent, toRefs, PropType, inject } from "vue";
 import type { ColumnProps } from '../types'
 
 export default defineComponent({
@@ -10,13 +10,15 @@ export default defineComponent({
         }
     },
     setup(props) {
-
+        const { TableSlots }: Record<string, any> = inject('TableObserver') as any
+        // console.log('columns', TableSlots);
         return {
-            ...toRefs(props)
+            ...toRefs(props), TableSlots
         }
     },
     render() {
-        const { column } = this
+        const { column: { prop, ...property }, TableSlots } = this
+
         return <>
             {/* {
                 columns.map((col: ColumnProps) => {
@@ -27,9 +29,9 @@ export default defineComponent({
                 })
             } */}
             {/* <el-table-column prop="date" label="Date" width="150" /> */}
-            <el-table-column {...column}>
+            <el-table-column prop={prop} {...property}>
 
-            </el-table-column>
+            </el-table-column  >
         </>
     }
 })
