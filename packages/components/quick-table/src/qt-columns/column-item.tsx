@@ -1,26 +1,31 @@
-import { defineComponent, toRefs, PropType, inject } from "vue";
-import type { ColumnProps } from '../types'
+import { defineComponent, toRefs, PropType, inject, renderSlot } from "vue";
+import type { ColumnProps } from "../types";
 
 export default defineComponent({
-    props: {
-        column: {
-            type: Object as PropType<ColumnProps>,
-            required: true,
-            default: () => { }
-        }
+  props: {
+    column: {
+      type: Object as PropType<ColumnProps>,
+      required: true,
+      default: () => {},
     },
-    setup(props) {
-        const { TableSlots }: Record<string, any> = inject('TableObserver') as any
-        // console.log('columns', TableSlots);
-        return {
-            ...toRefs(props), TableSlots
-        }
-    },
-    render() {
-        const { column: { prop, ...property }, TableSlots } = this
+  },
+  setup(props) {
+    const { colSlots }: Record<string, any> = inject("TableObserver") as any;
+    // console.log("columns", props.column.slot, TableSlots);
+    return {
+      ...toRefs(props),
+      colSlots,
+    };
+  },
+  render() {
+    const {
+      column: { prop, slot, ...property },
+      colSlots,
+    } = this;
 
-        return <>
-            {/* {
+    return (
+      <>
+        {/* {
                 columns.map((col: ColumnProps) => {
                     if(col.children&&Array.isArray(col.children){
 
@@ -28,10 +33,13 @@ export default defineComponent({
                     return <el-table-column {...col} />
                 })
             } */}
-            {/* <el-table-column prop="date" label="Date" width="150" /> */}
-            <el-table-column prop={prop} {...property}>
-
-            </el-table-column  >
-        </>
-    }
-})
+        {/* <el-table-column prop="date" label="Date" width="150" /> */}
+        <el-table-column prop={prop} {...property} v-slots={slot}>
+          {Object.keys(colSlots).includes(prop)
+            ? renderSlot(colSlots, prop)
+            : null}
+        </el-table-column>
+      </>
+    );
+  },
+});

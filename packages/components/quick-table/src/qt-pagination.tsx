@@ -5,72 +5,63 @@ import {
   inject,
   renderSlot,
   PropType,
+  computed,
 } from "vue";
+import "./index.scss";
+import type { IPageProps } from "./types";
 
 export default defineComponent({
   props: {
     page: {
-      type: Object,
-      default: () => ({
-        "current-page": 1,
-        "page-szie": 10,
-      }),
+      type: Object as PropType<IPageProps>,
+      default: () => ({ current: 1, size: 10 }),
     },
+    total: Number,
   },
-  emits: {},
+  emits: ["update:page", "page-change"],
   setup(props, { attrs, emit, slots }) {
-    // console.log('pagination', slots);
-    const { pageChange } = attrs;
-    const page = ref({
-      currentPage: 1,
-      pageSize: 10,
+    const page = computed({
+      get: () => props.page,
+      set: (val) => emit("update:page", val),
     });
 
-    const sizeChange = (pageSize: number) => {
-      console.log("size", pageSize);
-      // pageChange({currentPage:page.value.currentPage, pageSize,} "size")
-      //   emit('pageChange',{currentPage:page.value.currentPage, pageSize,} "size")
-    };
-    const currentChange = (currentPage: number) => {
-      console.log("current", currentPage);
-      // pageChange({currentPage:currentPage, pageSize:page.value.pageSize} "current")
-      //   emit('pageChange',{currentPage:currentPage, pageSize:page.value.pageSize} "current")
-    };
+    const sizeChange = (pageSize: number) =>
+      emit("page-change", page.value, "pageSize");
+    const currentChange = (currentPage: number) =>
+      emit("page-change", page.value, "currentPage");
 
     /* 渲染分页组件 */
     const renderPagination = () => (
-      <div>
-        <el-pagination
-          v-model:current-page={page.value.currentPage}
-          v-model:pageSize={page.value.pageSize}
-          layout="prev, pager,sizes, next"
-          total={50}
-          onCurrent-Change={currentChange}
-          onSize-change={sizeChange}
-        />
-      </div>
+      <el-pagination
+        v-model:current-page={page.value.current}
+        v-model:pageSize={page.value.size}
+        total={props.total}
+        background
+        {...attrs}
+        onCurrent-change={currentChange}
+        onSize-change={sizeChange}
+      />
     );
 
     return {
-      // ...toRefs(props),
-      page,
+      ...toRefs(props),
       slots,
       renderPagination,
     };
   },
   render() {
     const {
+      total,
       slots: { pagaination },
-      page: { currentPage, pageSize },
       renderPagination,
     } = this;
 
     return (
-      <>
+      <div class="quick-table-pagination">
         {pagaination
           ? renderSlot(this.slots, "pagaination")
           : renderPagination()}
-      </>
+      </div>
     );
   },
 });
