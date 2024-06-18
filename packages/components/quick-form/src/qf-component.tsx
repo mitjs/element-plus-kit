@@ -9,17 +9,19 @@ export default defineComponent({
   name: "App",
   props: QFComponentProps,
   setup(props, { slots }) {
-    const { change, formSlots }: Record<string, any> = inject(
+    const { onChange, onInput, formSlots }: Record<string, any> = inject(
       "formObserver"
     ) as any;
 
-    const onChange = (e: any, prop: string) => {
-      change(e, prop);
-    };
+    // const onChange = (e: any, prop: string) => {
+    //   change(e, prop);
+    // };
+    // const onInput=()=>onInput
 
     return {
       ...toRefs(props),
       onChange,
+      onInput,
       formSlots,
     };
   },
@@ -33,7 +35,7 @@ export default defineComponent({
       component,
       formSlots,
     }: Record<string, any> = this;
-    const { onChange } = this;
+    const { onChange, onInput } = this;
 
     const compRenderer: any = {
       input: () => {
@@ -41,9 +43,8 @@ export default defineComponent({
           <el-input
             v-model={formValue[prop]}
             clearable
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
+            onInput={(value: any) => onInput(value, prop)}
             placeholder={defaultPlaceholder(type, label)}
             style={defaultStyle}
             {...component}
@@ -54,26 +55,32 @@ export default defineComponent({
         return (
           <el-input-number
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
-            onInput={(value: any) => {
-              console.log("===", value);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
+            onInput={(value: any) => onInput(value, prop)}
             style={defaultStyle}
             {...component}
           />
         );
       },
+      textarea: () => (
+        <el-input
+          v-model={formValue[prop]}
+          clearable
+          onChange={(value: any) => onChange(value, prop)}
+          onInput={(value: any) => onInput(value, prop)}
+          placeholder={defaultPlaceholder(type, label)}
+          style={defaultStyle}
+          {...component}
+          type="textarea"
+        ></el-input>
+      ),
       select: () => {
         return (
           <el-select
             v-model={formValue[prop]}
             clearable
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
             {...component}
           >
@@ -91,9 +98,7 @@ export default defineComponent({
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
             options={options}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
             {...component}
           />
@@ -105,9 +110,7 @@ export default defineComponent({
             v-model={formValue[prop]}
             options={options}
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
             {...component}
           />
@@ -118,9 +121,7 @@ export default defineComponent({
           <el-time-select
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
             {...component}
           />
@@ -130,9 +131,7 @@ export default defineComponent({
         return (
           <el-radio-group
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             {...component}
           >
             {options.map((item: IOptionRow) => {
@@ -145,13 +144,15 @@ export default defineComponent({
         return (
           <el-checkbox-group
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             {...component}
           >
             {options.map((item: IOptionRow) => {
-              return <el-checkbox label={item.value}>{item.label}</el-checkbox>;
+              return (
+                <el-checkbox label={item.value} {...component.child}>
+                  {item.label}
+                </el-checkbox>
+              );
             })}
           </el-checkbox-group>
         );
@@ -179,9 +180,7 @@ export default defineComponent({
             format={dateFormat[type]}
             value-format={type && type !== "week" ? dateFormat[type] : null}
             placeholder={defaultPlaceholder(this.type, label)}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
             {...component}
           />
@@ -192,9 +191,7 @@ export default defineComponent({
           <el-time-picker
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
             {...component}
           />
@@ -204,9 +201,7 @@ export default defineComponent({
         return (
           <el-color-picker
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             {...component}
           />
         );
@@ -215,9 +210,7 @@ export default defineComponent({
         return (
           <el-rate
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             {...component}
           />
         );
@@ -226,9 +219,7 @@ export default defineComponent({
         return (
           <el-slider
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             style={{ ...defaultStyle, minWidth: "100px" }}
             {...component}
           />
@@ -238,9 +229,7 @@ export default defineComponent({
         return (
           <el-switch
             v-model={formValue[prop]}
-            onChange={(value: any) => {
-              onChange(value, prop);
-            }}
+            onChange={(value: any) => onChange(value, prop)}
             {...component}
           />
         );

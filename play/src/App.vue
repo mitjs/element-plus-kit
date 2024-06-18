@@ -2,7 +2,7 @@
     <div class="">
         <!-- <h1>12312312</h1> -->
 
-        <!-- <formTest /> -->
+        <formTest />
         <!-- <elForm /> -->
         <tableTest />
     </div>

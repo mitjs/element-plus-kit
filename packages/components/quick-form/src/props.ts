@@ -15,12 +15,12 @@ export const QFromProps = {
   model: {
     type: Object,
     required: true,
-    default: () => {},
+    default: () => { },
   },
   rules: {
     type: Object,
     required: false,
-    default: () => {},
+    default: () => { },
   },
   required: Boolean,
   gutter: Number,
@@ -44,7 +44,7 @@ export const QFromProps = {
 export const QFItemProps = {
   formValue: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
   formOptions: {
     type: Object as PropType<Array<ItemRowProps>>,
@@ -52,7 +52,7 @@ export const QFItemProps = {
     default: () => [],
   },
   required: Boolean,
-  isLayout: Boolean,
+  isGrid: Boolean,
   globalCol: Number,
   buttons: {
     type: Array as PropType<Array<BtnTypeObj>>,
@@ -74,7 +74,7 @@ export const QFComponentProps = {
   prop: String,
   formValue: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
   options: {
     type: Array as PropType<Array<IOptionRow>>,
@@ -83,6 +83,6 @@ export const QFComponentProps = {
   },
   component: {
     type: Object,
-    default: () => {},
+    default: () => { },
   },
 };

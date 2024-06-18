@@ -17,7 +17,7 @@ export const findFirstHaveColFormItem = (list: ItemRowProps[]) => {
  * @returns
  */
 export const defaultPlaceholder = (type: CompTypes, label: string) => {
-  if (["input"].includes(type)) return `请输入${label}`;
+  if (["input", 'textarea'].includes(type)) return `请输入${label}`;
   if (
     [
       "select",

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "pnpm -C play dev",
-    "build:component": "pnpm -C packages/components build",
+    "build:comp": "pnpm -C packages/components build",
     "docs:dev": "pnpm -C docs dev",
     "docs:build": "pnpm -C docs build"
   },
@@ -20,11 +20,13 @@
     "@vitejs/plugin-vue-jsx": "^3.0.2",
     "@vueuse/core": "^10.5.0",
     "element-plus": "^2.4.1",
+    "rimraf": "^5.0.7",
     "sass": "^1.69.4",
     "typescript": "^5.2.2",
     "unplugin-auto-import": "^0.16.7",
     "unplugin-vue-components": "^0.25.2",
     "vite": "^4.5.0",
+    "vite-plugin-dts": "^3.9.1",
     "vue": "^3.3.5"
   },
   "dependencies": {

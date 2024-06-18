@@ -1,13 +1,15 @@
-import type { App } from "vue";
+import type { App, Component } from "vue";
+// import * as comps from './components'
+// console.log('Comps', comps);
 
 import QuickForm from "./quick-form";
 import QuickTable from "./quick-table";
 
 const components = [QuickForm, QuickTable];
 
-const install = (Vue: App) => {
+const install = (app: App) => {
   components.forEach((comp) => {
-    Vue.component(comp.name, comp);
+    app.component(comp.name, comp);
   });
 };
 

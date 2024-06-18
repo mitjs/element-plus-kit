@@ -13,23 +13,32 @@ import {
 } from "vue";
 import QFormItem from "./qf-item";
 import type { ItemRowProps, Arrayable, BtnType, BtnTypeObj } from "./types";
-import type {
-  FormInstance,
-  FormValidateCallback,
-  FormItemProp,
-  FormRules,
+import {
+  type FormInstance,
+  type FormValidateCallback,
+  type FormItemProp,
+  type FormRules,
+  ElConfigProvider,
 } from "element-plus";
 import { findFirstHaveColFormItem } from "./utils";
 import { QFromProps } from "./props";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
 
 export default defineComponent({
   name: "QuickForm",
   props: QFromProps,
-  emits: ["change", "validate", "search", "reset", "cancel", "submit"],
+  emits: ["change", "input", "validate", "search", "reset", "cancel", "submit"],
   setup(props, { attrs, slots, emit, expose }) {
-    const { col, buttons, formOptions, required, rules, resetActiveSearch } =
-      toRefs(props);
-
+    const {
+      col,
+      buttons,
+      formOptions,
+      required,
+      rules,
+      resetActiveSearch,
+      model,
+    } = toRefs(props);
+    const { gutter } = toRefs(attrs);
     const formRef = ref<FormInstance>();
     let newRules = reactive<FormRules<Record<string, any>>>({});
 
@@ -39,7 +48,7 @@ export default defineComponent({
     const globalCol = computed(() => {
       return col.value || fCol;
     }); /* 计算栅格布局值 */
-    const isLayout = ref(globalCol ? true : false); /* 是否开启layout布局 */
+    const isGrid = ref(globalCol ? true : false); /* 是否开启layout布局 */
 
     // 处理 rules 副作用
     effect(() => {
@@ -63,7 +72,14 @@ export default defineComponent({
     /* ================================== form 事件触发 start ===================================== */
     const onChange = (value: any, prop: string) => {
       emit("change", value, prop);
+      emit(`change[${prop}]` as any, value);
     };
+
+    const onInput = (value: any, prop: string) => {
+      emit("input", value, prop);
+      emit(`input[${prop}]` as any, value);
+    };
+
     const onValidate = (
       prop: FormItemProp,
       isValid: boolean,
@@ -109,20 +125,22 @@ export default defineComponent({
     provide<{
       formSlots: Record<string, any>;
       validate: (callback?: FormValidateCallback) => Promise<void>;
-      change: (value: any, prop: string) => void;
+      onChange: (value: any, prop: string) => void;
       btnEvent: (event: BtnType) => void;
+      onInput: (value: any, prop: string) => void;
     }>("formObserver", {
       formSlots: slots,
       validate: validate,
-      change: onChange,
+      onChange: onChange,
       btnEvent: onBtnEvent,
+      onInput: onInput,
     });
 
     return {
       formRef,
       ...toRefs(props),
       attrs,
-      isLayout,
+      isGrid,
       globalCol,
       newRules,
       onValidate,
@@ -133,7 +151,7 @@ export default defineComponent({
       model,
       newRules,
       formOptions,
-      isLayout,
+      isGrid,
       attrs,
       gutter,
       globalCol,
@@ -148,29 +166,32 @@ export default defineComponent({
           <QFormItem
             formValue={model}
             formOptions={formOptions}
-            isLayout={isLayout}
+            isGrid={isGrid}
             globalCol={globalCol}
             buttons={buttons}
-          ></QFormItem>
+          />
         </>
       );
     };
 
     return (
       <>
-        <el-form
-          ref="formRef"
-          model={model}
-          rules={newRules}
-          {...attrs}
-          onValidate={onValidate}
-        >
-          {isLayout ? (
-            <el-row gutter={gutter}>{rowRenderer()}</el-row>
-          ) : (
-            rowRenderer()
-          )}
-        </el-form>
+        <ElConfigProvider locale={zhCn}>
+          <el-form
+            ref="formRef"
+            size="large"
+            model={model}
+            rules={newRules}
+            {...attrs}
+            onValidate={onValidate}
+          >
+            {isGrid ? (
+              <el-row gutter={gutter}>{rowRenderer()}</el-row>
+            ) : (
+              rowRenderer()
+            )}
+          </el-form>
+        </ElConfigProvider>
       </>
     );
   },

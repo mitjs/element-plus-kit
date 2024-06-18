@@ -6,6 +6,7 @@ import type {
 } from "element-plus";
 import { VNode } from "vue";
 
+export type Numric = string | number;
 export type CompTypes =
   | "input"
   | "input-number"
@@ -33,6 +34,13 @@ export type RenderComp<T = any> = {
 };
 
 // export type ItemLabel = string | ()=>VNode;
+/**
+ * options options类型声明
+ */
+export interface IOptionRow {
+  label: string;
+  value: Numric;
+}
 
 export interface ItemRowProps {
   type: CompTypes;
@@ -44,13 +52,7 @@ export interface ItemRowProps {
   component?: any;
 }
 
-/**
- * options options类型声明
- */
-export interface IOptionRow {
-  label: string;
-  value: string | number;
-}
+
 
 /**
  * 按钮组类型声明

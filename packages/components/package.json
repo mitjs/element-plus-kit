@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "vite build"
+    "clean": "rimraf dist",
+    "build": "pnpm run clean && vite build"
   },
   "keywords": [],
   "author": "",
