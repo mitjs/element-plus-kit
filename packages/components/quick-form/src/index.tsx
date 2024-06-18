@@ -27,9 +27,16 @@ export default defineComponent({
   props: QFromProps,
   emits: ["change", "validate", "search", "reset", "cancel", "submit"],
   setup(props, { attrs, slots, emit, expose }) {
-    const { col, buttons, formOptions, required, rules, resetActiveSearch } =
-      toRefs(props);
-
+    const {
+      col,
+      buttons,
+      formOptions,
+      required,
+      rules,
+      resetActiveSearch,
+      model,
+    } = toRefs(props);
+    const { gutter } = toRefs(attrs);
     const formRef = ref<FormInstance>();
     let newRules = reactive<FormRules<Record<string, any>>>({});
 
@@ -127,6 +134,37 @@ export default defineComponent({
       newRules,
       onValidate,
     };
+    // const rowRenderer = () => {
+    //   return (
+    //     <>
+    //       <QFormItem
+    //         formValue={model}
+    //         formOptions={formOptions.value}
+    //         isLayout={isLayout.value}
+    //         globalCol={globalCol.value}
+    //         buttons={buttons.value}
+    //       />
+    //     </>
+    //   );
+    // };
+
+    // return () => (
+    //   <>
+    //     <el-form
+    //       ref="formRef"
+    //       model={model}
+    //       rules={newRules}
+    //       {...attrs}
+    //       onValidate={onValidate}
+    //     >
+    //       {isLayout ? (
+    //         <el-row gutter={gutter.value}>{rowRenderer()}</el-row>
+    //       ) : (
+    //         rowRenderer()
+    //       )}
+    //     </el-form>
+    //   </>
+    // );
   },
   render() {
     const {
@@ -151,7 +189,7 @@ export default defineComponent({
             isLayout={isLayout}
             globalCol={globalCol}
             buttons={buttons}
-          ></QFormItem>
+          />
         </>
       );
     };
@@ -160,6 +198,7 @@ export default defineComponent({
       <>
         <el-form
           ref="formRef"
+          size="large"
           model={model}
           rules={newRules}
           {...attrs}

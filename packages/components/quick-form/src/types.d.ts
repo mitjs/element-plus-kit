@@ -33,6 +33,13 @@ export type RenderComp<T = any> = {
 };
 
 // export type ItemLabel = string | ()=>VNode;
+/**
+ * options options类型声明
+ */
+export interface IOptionRow {
+  label: string;
+  value: string | number;
+}
 
 export interface ItemRowProps {
   type: CompTypes;
@@ -44,13 +51,7 @@ export interface ItemRowProps {
   component?: any;
 }
 
-/**
- * options options类型声明
- */
-export interface IOptionRow {
-  label: string;
-  value: string | number;
-}
+
 
 /**
  * 按钮组类型声明
