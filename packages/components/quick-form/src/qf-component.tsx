@@ -1,7 +1,8 @@
 import { defineComponent, renderSlot, toRefs, inject } from "vue";
-import type { IOptionRow, DatePickerType } from "./types";
+import type { IOptionRow, DatePickerType, CompTypes } from "./types";
 import { defaultPlaceholder } from "./utils";
 import { QFComponentProps } from "./props";
+
 const defaultStyle = {
   width: "100%",
 };
@@ -9,33 +10,48 @@ export default defineComponent({
   name: "App",
   props: QFComponentProps,
   setup(props, { slots }) {
-    const { onChange, onInput, formSlots }: Record<string, any> = inject(
+    const { onChange, onInput, onClear, onBlur, onFocus, formSlots }: Record<string, any> = inject(
       "formObserver"
     ) as any;
 
-    // const onChange = (e: any, prop: string) => {
-    //   change(e, prop);
-    // };
-    // const onInput=()=>onInput
+    const { formValue, prop, type, label, orgAttrs, options }: {
+      prop: string,
+      type: CompTypes,
+      label?: string,
+      orgAttrs?: Record<string, any>,
+      options?: IOptionRow[],
+      [K: string]: any
+    } = props as any
 
-    return {
-      ...toRefs(props),
-      onChange,
-      onInput,
-      formSlots,
-    };
-  },
-  render() {
-    const {
-      label,
-      type,
-      formValue,
-      prop,
-      options,
-      component,
-      formSlots,
-    }: Record<string, any> = this;
-    const { onChange, onInput } = this;
+    const InputEventAblity: CompTypes[] = ['input', 'textarea', 'select', 'select-v2', "slider"]
+    const BlurWithFocusEventAblity: CompTypes[] = ['input', 'textarea', 'input-number', 'select', 'select-v2', "time-select", "time-picker", 'date-picker', "color-picker"]
+    const ClearEventAblity: CompTypes[]=['input', 'textarea', 'select', 'select-v2']
+   
+    const compEventRow = () => {
+      let eventRow: any = {
+        onChange: (...arg:any) => {
+          console.log('comp',arg);
+          onChange(...arg, prop)
+        },
+      }
+      // 具备 input 事件
+      if (InputEventAblity.includes(type)) {
+        eventRow['onInput'] = (value: any) => onInput(value, prop)
+      }
+
+      // 具备 onBlur 和 onFocus 事件
+      if (BlurWithFocusEventAblity.includes(type)) {
+        eventRow['onBlur'] = (e: FocusEvent) => onBlur(e, prop)
+        eventRow['onFocus'] = (e: FocusEvent) => onFocus(e, prop)
+      }
+
+      // 具备 clear 事件
+      if (ClearEventAblity.includes(type)) {
+        eventRow['onClear'] = () => onClear(prop)
+      }
+      return eventRow
+    }
+
 
     const compRenderer: any = {
       input: () => {
@@ -43,11 +59,10 @@ export default defineComponent({
           <el-input
             v-model={formValue[prop]}
             clearable
-            onChange={(value: any) => onChange(value, prop)}
-            onInput={(value: any) => onInput(value, prop)}
             placeholder={defaultPlaceholder(type, label)}
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           ></el-input>
         );
       },
@@ -55,23 +70,21 @@ export default defineComponent({
         return (
           <el-input-number
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
-            onInput={(value: any) => onInput(value, prop)}
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
       textarea: () => (
         <el-input
+          type="textarea"
           v-model={formValue[prop]}
           clearable
-          onChange={(value: any) => onChange(value, prop)}
-          onInput={(value: any) => onInput(value, prop)}
           placeholder={defaultPlaceholder(type, label)}
           style={defaultStyle}
-          {...component}
-          type="textarea"
+          {...compEventRow()}
+          {...orgAttrs}
         ></el-input>
       ),
       select: () => {
@@ -80,11 +93,11 @@ export default defineComponent({
             v-model={formValue[prop]}
             clearable
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           >
-            {options.map((item: IOptionRow) => {
+            {options!.map((item: IOptionRow) => {
               return (
                 <el-option value={item.value} label={item.label}></el-option>
               );
@@ -98,9 +111,10 @@ export default defineComponent({
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
             options={options}
-            onChange={(value: any) => onChange(value, prop)}
+            clearable
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -109,10 +123,11 @@ export default defineComponent({
           <el-cascader
             v-model={formValue[prop]}
             options={options}
+            clearable
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => onChange(value, prop)}
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -121,9 +136,10 @@ export default defineComponent({
           <el-time-select
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => onChange(value, prop)}
+            clearable
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -131,10 +147,10 @@ export default defineComponent({
         return (
           <el-radio-group
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           >
-            {options.map((item: IOptionRow) => {
+            {options!.map((item: IOptionRow) => {
               return <el-radio label={item.value}>{item.label}</el-radio>;
             })}
           </el-radio-group>
@@ -144,12 +160,12 @@ export default defineComponent({
         return (
           <el-checkbox-group
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           >
-            {options.map((item: IOptionRow) => {
+            {options!.map((item: IOptionRow) => {
               return (
-                <el-checkbox label={item.value} {...component.child}>
+                <el-checkbox label={item.value}>
                   {item.label}
                 </el-checkbox>
               );
@@ -171,18 +187,19 @@ export default defineComponent({
           monthrange: "YYYY-MM",
           datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
         };
-        const { type }: { type: DatePickerType; [k: string]: any } = component;
-
+        // const { type:compType }: { type: DatePickerType; [k: string]: any } = orgAttrs;
+        const compType: DatePickerType = orgAttrs && orgAttrs.type ? orgAttrs.type : 'date' as any
         return (
           <el-date-picker
             v-model={formValue[prop]}
-            type={type ? dateFormat[type as DatePickerType] : "date"}
-            format={dateFormat[type]}
-            value-format={type && type !== "week" ? dateFormat[type] : null}
-            placeholder={defaultPlaceholder(this.type, label)}
-            onChange={(value: any) => onChange(value, prop)}
+            clearable
+            placeholder={defaultPlaceholder(type, label)}
+            type={compType ? dateFormat[compType] : "date"}
+            format={dateFormat[compType]}
+            value-format={compType && compType !== "week" ? dateFormat[compType] : null}
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -191,9 +208,10 @@ export default defineComponent({
           <el-time-picker
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
-            onChange={(value: any) => onChange(value, prop)}
+            clearable
             style={defaultStyle}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -201,8 +219,8 @@ export default defineComponent({
         return (
           <el-color-picker
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -210,8 +228,8 @@ export default defineComponent({
         return (
           <el-rate
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -219,9 +237,9 @@ export default defineComponent({
         return (
           <el-slider
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
             style={{ ...defaultStyle, minWidth: "100px" }}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -229,8 +247,8 @@ export default defineComponent({
         return (
           <el-switch
             v-model={formValue[prop]}
-            onChange={(value: any) => onChange(value, prop)}
-            {...component}
+            {...compEventRow()}
+            {...orgAttrs}
           />
         );
       },
@@ -242,6 +260,6 @@ export default defineComponent({
       },
     };
 
-    return <>{compRenderer[type]()}</>;
+    return () => (<>{compRenderer[type]()}</>)
   },
 });

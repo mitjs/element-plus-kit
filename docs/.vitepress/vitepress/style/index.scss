@@ -1,3 +1,5 @@
 // index.scss
-@import "vars.scss";
-@import "code.css";
+// @import "vars.scss";
+@use "./code.css";
+@use './content';
+// @import 'base.scss';

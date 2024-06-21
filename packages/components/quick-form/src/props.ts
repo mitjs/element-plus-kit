@@ -69,9 +69,13 @@ export const QFComponentProps = {
   label: String,
   type: {
     type: String as PropType<CompTypes>,
+    required: true,
     default: "input",
   },
-  prop: String,
+  prop: {
+    required: true,
+    type: String
+  },
   formValue: {
     type: Object,
     default: () => { },
@@ -81,7 +85,7 @@ export const QFComponentProps = {
     required: false,
     default: () => [],
   },
-  component: {
+  orgAttrs: {
     type: Object,
     default: () => { },
   },

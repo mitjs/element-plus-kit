@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "pnpm -C play dev",
+    "dev": "pnpm -C play dev",
     "build:comp": "pnpm -C packages/components build",
     "docs:dev": "pnpm -C docs dev",
     "docs:build": "pnpm -C docs build"

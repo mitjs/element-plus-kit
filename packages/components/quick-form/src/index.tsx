@@ -27,7 +27,7 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";
 export default defineComponent({
   name: "QuickForm",
   props: QFromProps,
-  emits: ["change", "input", "validate", "search", "reset", "cancel", "submit"],
+  emits: ["change", "input", "validate",'clear','blur','focus', "search", "reset", "cancel", "submit"],
   setup(props, { attrs, slots, emit, expose }) {
     const {
       col,
@@ -70,31 +70,14 @@ export default defineComponent({
     });
 
     /* ================================== form 事件触发 start ===================================== */
-    const onChange = (value: any, prop: string) => {
-      emit("change", value, prop);
-      emit(`change[${prop}]` as any, value);
-    };
-
-    const onInput = (value: any, prop: string) => {
-      emit("input", value, prop);
-      emit(`input[${prop}]` as any, value);
-    };
-
-    const onValidate = (
+        const onValidate = (
       prop: FormItemProp,
       isValid: boolean,
       message: string
     ): void => {
       emit("validate", prop, isValid, message);
     };
-
-    const onBtnEvent = (event: BtnType): void => {
-      if (resetActiveSearch.value && event === "reset") {
-        formRef.value?.resetFields();
-        emit("search");
-      }
-      emit(event);
-    };
+   
     /* ================================== form 事件触发 end ===================================== */
 
     /* ================================== form 实例化方法 start ================================== */
@@ -125,15 +108,36 @@ export default defineComponent({
     provide<{
       formSlots: Record<string, any>;
       validate: (callback?: FormValidateCallback) => Promise<void>;
-      onChange: (value: any, prop: string) => void;
+      onChange: (...args:any) => void;
       btnEvent: (event: BtnType) => void;
       onInput: (value: any, prop: string) => void;
+      onClear: (prop: string) => void;
+      onBlur: (e:FocusEvent,prop: string) => void;
+      onFocus: (e:FocusEvent,prop: string) => void;
     }>("formObserver", {
       formSlots: slots,
+      // 表单验证触发
       validate: validate,
-      onChange: onChange,
-      btnEvent: onBtnEvent,
-      onInput: onInput,
+      // 某一表单项值改变时触发
+      onChange: (...args) =>  {
+        console.log('qf-',...args);
+        
+        emit("change", ...args)
+      },
+      // 默认按钮事件触发
+      btnEvent: (event: BtnType): void => {
+        if (resetActiveSearch.value && event === "reset") {
+          formRef.value?.resetFields();
+          emit("search");
+        }
+        emit(event);
+      },
+      // 输入框事件触发
+      onInput: (value: any, prop: string) => emit("input", value, prop),
+      // 清除事件触发
+      onClear:(prop: string)=>  emit("clear",  prop),
+      onBlur:(e:FocusEvent,prop: string)=>emit('blur', e, prop),
+      onFocus:(e:FocusEvent,prop: string)=>emit('focus',e,  prop),
     });
 
     return {

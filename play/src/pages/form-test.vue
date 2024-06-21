@@ -2,8 +2,7 @@
     <div class="2222">
         <quick-form ref="formRef" require-asterisk-position="right" label-width="120px" :model="FormValue"
             :form-options="formOptions" @validate="onValidate" required @change="onChange" :col="12"
-            :buttons="['search', { label: 'ss', type: 'cancel1' }, 'reset']" @search="onSearch" @input="onInput"
-            @change[name]="onNameChange" @change[sex]="onSexChange">
+            :buttons="['search', { label: 'ss', type: 'cancel1' }, 'reset']" @search="onSearch" @input="onInput">
             <!--  :rules="rules"  -->
             <!-- <QuickTable></QuickTable> -->
             <!--  :rules="rules"  -->
@@ -35,11 +34,11 @@ const formOptions = ref([
         prop: "name",
         // col: 24,
         formItem: { required: false, "label-suffix": "" },
-        component: {
+        attrs: {
             onInput: () => {
                 console.log("input", 8789789);
             },
-            onBlur: (e) => {
+            onBlur: (e: any) => {
                 console.log("onBlur", e);
             },
         },
@@ -78,7 +77,7 @@ const formOptions = ref([
         type: "date-picker",
         label: "date-picker",
         prop: "count4",
-        component: { type: "week" },
+        component: { type: "datetime" },
     },
     { type: "time-picker", label: "time-picker", prop: "count5" },
     { type: "color-picker", label: "color-picker", prop: "count6" },
@@ -105,12 +104,6 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const onInput = (value: any, prop: string) => {
     console.log("onInput====", value, prop);
 };
-const onNameChange = (value) => {
-    console.log("onNameChange", value);
-}
-const onSexChange = (value) => {
-    console.log("onSexChange", value);
-}
 
 const rules = reactive<FormRules<{ [k: string]: any }>>({
     name: [
@@ -175,8 +168,8 @@ const onValidate = (prop: any, isValid: boolean, message: string) => {
     // console.log(prop, isValid, message);
 };
 
-const onChange = (value: any, prop: string) => {
-    console.log("onChange====", value, prop);
+const onChange = (...arg: any) => {
+    console.log("onChange==== ", ...arg);
 };
 const onSearch = () => {
     console.log(FormValue.value);

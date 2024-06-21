@@ -10,6 +10,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       host: "0.0.0.0",
       open: true,
+      port: 3000
     },
     resolve: {
       alias: [

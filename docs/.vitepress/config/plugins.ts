@@ -8,6 +8,11 @@ import mdContainer from "markdown-it-container";
 import type Token from "markdown-it/lib/token";
 import { highlight } from "../utils/highlight";
 import { docRoot } from "../theme/global";
+import externalLinkIcon from '../plugins/external-link-icon'
+import tooltip from '../plugins/tooltip'
+import tableWrapper from "../plugins/table-wrapper";
+import tag from '../plugins/tag'
+import { ApiTableContainer } from '../plugins/api-table'
 
 const localMd = MarkdownIt();
 
@@ -17,6 +22,10 @@ interface ContainerOpts {
   render?(tokens: Token[], index: number): string;
 }
 export const mdPlugin = (md: MarkdownIt) => {
+  md.use(externalLinkIcon)
+  md.use(tooltip)
+  md.use(tableWrapper)
+  md.use(tag)
   md.use(mdContainer, "demo", {
     validate(params) {
       return !!params.trim().match(/^demo\s*(.*)$/);
@@ -43,12 +52,13 @@ export const mdPlugin = (md: MarkdownIt) => {
                         path="${sourceFile}"
                         raw-source="${encodeURIComponent(source)}"
                         description="${encodeURIComponent(
-                          localMd.render(description)
-                        )}">`;
+          localMd.render(description)
+        )}">`;
       } else {
         // closing tag
         return "</Demo>\n";
       }
     },
   } as ContainerOpts);
+  md.use(ApiTableContainer)
 };

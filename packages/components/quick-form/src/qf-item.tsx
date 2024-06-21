@@ -86,7 +86,7 @@ export default defineComponent({
 
     // 组件渲染器
     const componentRenderer = (item: ItemRowProps) => {
-      const { label, prop, formItem, type, options, component } = item;
+      const { label, prop, formItem, type, options, attrs:orgAttrs } = item;
 
       return (
         <el-form-item
@@ -104,7 +104,7 @@ export default defineComponent({
             prop={prop}
             formValue={formValue}
             options={options}
-            component={component}
+            orgAttrs={orgAttrs}
           />
         </el-form-item>
       );

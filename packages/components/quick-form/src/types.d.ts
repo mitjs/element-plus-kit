@@ -9,6 +9,7 @@ import { VNode } from "vue";
 export type Numric = string | number;
 export type CompTypes =
   | "input"
+  | 'textarea'
   | "input-number"
   | "select"
   | "select-v2"
@@ -25,15 +26,11 @@ export type CompTypes =
   | "text"
   | "slot";
 
-// export type CompInstance<T> = {
-//   [K in CompTypes]: InstanceType<typeof T>;
-// };
 
 export type RenderComp<T = any> = {
   [C in CompTypes]?: () => JSX.Element | T;
 };
 
-// export type ItemLabel = string | ()=>VNode;
 /**
  * options options类型声明
  */
@@ -49,7 +46,7 @@ export interface ItemRowProps {
   col?: number;
   options: Array<IOptionRow>;
   formItem?: formItemProps;
-  component?: any;
+  attrs?: any; //原始 CompTypes 组件属性及方法
 }
 
 

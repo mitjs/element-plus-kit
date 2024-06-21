@@ -1,0 +1,48 @@
+@use '../mixins' as *;
+
+.toc-wrapper {
+  display: none;
+  padding-left: 64px;
+
+  @include respond-to('xxl') {
+    display: block;
+    padding-right: 32px;
+  }
+
+  @include respond-to('max') {
+    padding-right: 48px;
+  }
+
+  @include respond-to('xxl') {
+    display: block;
+    padding-right: 32px;
+  }
+
+  @include respond-to('max') {
+    padding-right: 48px;
+  }
+
+  .toc-content {
+    position: sticky;
+    top: calc(var(--header-height) + 32px);
+    margin-top: 0;
+    margin-bottom: 32px;
+    width: 200px;
+
+    &__heading {
+      font-size: 12px;
+      line-height: 30px;
+      padding-left: 14px;
+      color: var(--text-color-light);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 0;
+    }
+    p {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+  }
+}
