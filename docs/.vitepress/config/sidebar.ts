@@ -3,8 +3,8 @@ export default {
     {
       text: "基础组件",
       items: [
-        { text: "FormGenerator", link: "/components/form-generator/index" },
-        { text: "TableGenerator", link: "/components/table-generator/index" },
+        { text: "QuickFrom", link: "/components/quick-form/index" },
+        { text: "QuickTable", link: "/components/quick-table/index" },
       ],
     },
   ],
@@ -12,8 +12,8 @@ export default {
     {
       text: "指南",
       items: [
-        { text: "FormGenerator", link: "/components/form-generator/index" },
-        { text: "TableGenerator", link: "/components/table-generator/index" },
+        { text: "QuickFrom", link: "/components/quick-form/index" },
+        { text: "QuickTable", link: "/components/quick-table/index" },
       ],
     },
   ],

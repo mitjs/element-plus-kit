@@ -1,25 +1,30 @@
 ---
 layout: home
 hero:
-  name: Meetjs Design
-  text: Vue3 组件库
-  tagline: 基于Vue3，面向开发者的组件库
+  name: ElementPlus Kit
+  text: 快捷开发器
+  tagline: 快捷，高效，简化
   actions:
     - theme: brand
       text: 开始
-      link: /guide/what-is-vitepress
+      link: /guide/
     - theme: alt
       text: View on GitHub
       link: https://github.com/vuejs/vitepress
 features:
   - icon: ⚡️
-    title:  vite 超快冷启动和热加载
-    details: Lorem ipsum...
+    title: 简化页面
   - icon: 🖖
-    title: Vue的力量与Markdown相遇
+    title: 配置灵活
+  - icon: 🛠️
+    title: 开发提效
+  - icon: ⚡️
+    title: 解放双手
+  - icon: 🖖
+    title: 丰富功能
     details: Lorem ipsum...
   - icon: 🛠️
-    title: 始终简单、最少
+    title: 不信你用用看
     details: Lorem ipsum...
 ---
 

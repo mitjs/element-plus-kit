@@ -2,7 +2,8 @@
     <div class="2222">
         <quick-form ref="formRef" require-asterisk-position="right" label-width="120px" :model="FormValue"
             :form-options="formOptions" @validate="onValidate" required @change="onChange" :col="12"
-            :buttons="['search', { label: 'ss', type: 'cancel1' }, 'reset']" @search="onSearch" @input="onInput">
+            :buttons="['search', 'reset']" @search="onSearch" @input="onInput">
+            <!-- :col="12" -->
             <!--  :rules="rules"  -->
             <!-- <QuickTable></QuickTable> -->
             <!--  :rules="rules"  -->
@@ -21,6 +22,7 @@ const FormValue = ref({
     sex: 1,
     count10: "我是text",
 });
+
 const opts1 = [{ label: "11", value: "111" }];
 const opts2 = [
     { label: "22", value: "2" },

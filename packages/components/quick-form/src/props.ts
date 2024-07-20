@@ -35,7 +35,6 @@ export const QFromProps = {
     required: false,
     default: () => [],
   },
-  resetActiveSearch: Boolean,
 };
 
 /**
