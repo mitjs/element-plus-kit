@@ -27,7 +27,7 @@ import zhCn from "element-plus/es/locale/lang/zh-cn";
 export default defineComponent({
   name: "QuickForm",
   props: QFromProps,
-  emits: ["change", "input", "validate",'clear','blur','focus', "search", "reset", "cancel", "submit"],
+  emits: ["change", "input", "validate", 'clear', 'blur', 'focus', "search", "reset", "cancel", "submit"],
   setup(props, { attrs, slots, emit, expose }) {
     const {
       col,
@@ -46,6 +46,8 @@ export default defineComponent({
       formOptions.value
     ); /* 第一个设置栅格的表单项 */
     const globalCol = computed(() => {
+      console.log('globalCol', col.value || fCol);
+
       return col.value || fCol;
     }); /* 计算栅格布局值 */
     const isGrid = ref(globalCol ? true : false); /* 是否开启layout布局 */
@@ -57,9 +59,8 @@ export default defineComponent({
           newRules[item.prop] = [
             {
               required: true,
-              message: `${
-                typeof item.label == "string" ? item.label : item.prop
-              }不能为空`,
+              message: `${typeof item.label == "string" ? item.label : item.prop
+                }不能为空`,
               trigger: ["blur", "change"],
             },
           ];
@@ -70,14 +71,14 @@ export default defineComponent({
     });
 
     /* ================================== form 事件触发 start ===================================== */
-        const onValidate = (
+    const onValidate = (
       prop: FormItemProp,
       isValid: boolean,
       message: string
     ): void => {
       emit("validate", prop, isValid, message);
     };
-   
+
     /* ================================== form 事件触发 end ===================================== */
 
     /* ================================== form 实例化方法 start ================================== */
@@ -108,20 +109,20 @@ export default defineComponent({
     provide<{
       formSlots: Record<string, any>;
       validate: (callback?: FormValidateCallback) => Promise<void>;
-      onChange: (...args:any) => void;
+      onChange: (...args: any) => void;
       btnEvent: (event: BtnType) => void;
       onInput: (value: any, prop: string) => void;
       onClear: (prop: string) => void;
-      onBlur: (e:FocusEvent,prop: string) => void;
-      onFocus: (e:FocusEvent,prop: string) => void;
+      onBlur: (e: FocusEvent, prop: string) => void;
+      onFocus: (e: FocusEvent, prop: string) => void;
     }>("formObserver", {
       formSlots: slots,
       // 表单验证触发
       validate: validate,
       // 某一表单项值改变时触发
-      onChange: (...args) =>  {
-        console.log('qf-',...args);
-        
+      onChange: (...args) => {
+        console.log('qf-', ...args);
+
         emit("change", ...args)
       },
       // 默认按钮事件触发
@@ -135,9 +136,9 @@ export default defineComponent({
       // 输入框事件触发
       onInput: (value: any, prop: string) => emit("input", value, prop),
       // 清除事件触发
-      onClear:(prop: string)=>  emit("clear",  prop),
-      onBlur:(e:FocusEvent,prop: string)=>emit('blur', e, prop),
-      onFocus:(e:FocusEvent,prop: string)=>emit('focus',e,  prop),
+      onClear: (prop: string) => emit("clear", prop),
+      onBlur: (e: FocusEvent, prop: string) => emit('blur', e, prop),
+      onFocus: (e: FocusEvent, prop: string) => emit('focus', e, prop),
     });
 
     return {
@@ -170,7 +171,7 @@ export default defineComponent({
           <QFormItem
             formValue={model}
             formOptions={formOptions}
-            isGrid={isGrid}
+            isGrid={!!globalCol}
             globalCol={globalCol}
             buttons={buttons}
           />

@@ -1,4 +1,4 @@
-# FormGenerator
+# QuickForm
 
 表单生成器,支持 `输入类`、`选择类`, `文本类` 等**16**种的组件，使用表单，您可以快速完成表单页面的构建以及数据的收集、验证和提交。
 
@@ -7,18 +7,30 @@ TSelect/single
 :::
 
 
-## FormGenerator Api
-### FormGenerator Attributes
+## QuickForm API
+### QuickForm  属性
 
-| **属性名** | **说明**                                                                                                           | **类型**                      | **默认值** |
-| ---------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------- | ---------- |
-| model      | 表单数据对象                                                                                                       | ^[object]`Record<string,any>` | -          |
-| options    | 表单项对象集合                                                                                                     | `array`                       | []         |
-| buttons    | 默认按钮组集合<br/>默认支持按钮 `search` 、`reset`、`cancel`、`submit` 对应四种触发事件<br />[button配置](#button) | `array`                       | -          |
+| **属性名**         | **说明**                                                     | **类型**                      | **默认值** |
+| ------------------ | ------------------------------------------------------------ | ----------------------------- | ---------- |
+| model              | 表单数据对象                                                 | ^[object]`Record<string,any>` | -          |
+| [options](#option) | 表单项对象集合                                               | `array`                       | []         |
+| buttons            | 默认按钮组集合<br/>默认支持按钮 `search` 、`reset`、`cancel`、`submit` 对应四种触发事件<br />[button配置](#button配置) | `BtnTypeObj`                  | -          |
+
+#### 
+
+| 属性名   | 说明                                                        | 类型                                             |      |
+| -------- | ----------------------------------------------------------- | ------------------------------------------------ | ---- |
+| type     | [表单组件类型](#支持的组件类型)                             | ^[CompTypes]`'input' |`                          |      |
+| label    | 表单项文本                                                  | `string`                                         |      |
+| prop     | 属性名                                                      | `string`                                         |      |
+| required | 是否必填                                                    | `boolean`                                        |      |
+| vif      | 是否显示表单项                                              | `boolean` / ^[Function]`(values:any) => boolean` |      |
+| formItem | formItem对应的配置【可参考element-plus组件库form-item配置】 |                                                  |      |
+| options  | 选择类组件options配置项，形式如：`[{label:xxx,value:xxx}]`  |                                                  |      |
 
 
 
-### FormGenerator Events
+### QuickForm  事件
 
 | **事件名** | **说明**                                                                                   | **类型**                                                                     |
 | ---------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
@@ -35,7 +47,7 @@ TSelect/single
 
 
 
-### FormGenerator Exposes
+### QuickForm 方法
 
 | **名称**      | **说明**                                                        | **类型**                                                        |
 | ------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
@@ -47,17 +59,51 @@ TSelect/single
 
 
 
-### FormGenerator Slots
+### QuickForm 插槽
 
 | **事件名** | **说明**                            | **子标签** |
 | ---------- | ----------------------------------- | ---------- |
 | default    | 自定义默认内容                      | FormItem   |
-| [prop]     | options中配置任一表单项对象中的prop |            |
+| `[prop]`   | options中配置任一表单项对象中的prop |            |
 |            |                                     |            |
 
+#### button配置
+
+| 按钮类型 | 触发对应事件 |      |
+| -------- | ------------ | ---- |
+| search   | search       |      |
+| reset    | reset        |      |
+| cancel   | cancel       |      |
+| submit   | submit       |      |
 
 
-### button 配置
+
+#### 支持的组件类型
+
+::: tip 组件类型
+
+| 类型         | 对应Element-Plus组件                                         | 说明                                               |
+| ------------ | ------------------------------------------------------------ | -------------------------------------------------- |
+| input        | [Input 输入框](#https://element-plus-docs.bklab.cn/zh-CN/component/input.html) |                                                    |
+| textarea     | [Input 文本域](#https://element-plus-docs.bklab.cn/zh-CN/component/input.html#%E6%96%87%E6%9C%AC%E5%9F%9F) |                                                    |
+| input-number | [Input Number 数字输入框](#https://element-plus-docs.bklab.cn/zh-CN/component/input-number.html) |                                                    |
+| select       | [Select 选择器](#https://element-plus-docs.bklab.cn/zh-CN/component/select.html) |                                                    |
+| select-v2    | [Virtualized Select 虚拟化选择器](https://element-plus-docs.bklab.cn/zh-CN/component/select-v2.html) |                                                    |
+| cascader     | [Cascader 级联选择器](https://element-plus-docs.bklab.cn/zh-CN/component/cascader.html) |                                                    |
+| tree-select  | [TreeSelect 树形选择](https://element-plus-docs.bklab.cn/zh-CN/component/tree-select.html) |                                                    |
+| radio        | [Radio 单选框](https://element-plus-docs.bklab.cn/zh-CN/component/radio.html) |                                                    |
+| checkbox     | [Checkbox 多选框](https://element-plus-docs.bklab.cn/zh-CN/component/checkbox.html) |                                                    |
+| time-select  | [TimeSelect 时间选择](https://element-plus-docs.bklab.cn/zh-CN/component/time-select.html) |                                                    |
+| date-picker  | [DatePicker 日期选择器](https://element-plus-docs.bklab.cn/zh-CN/component/date-picker.html)<br/>[DateTimePicker 日期时间选择器](https://element-plus-docs.bklab.cn/zh-CN/component/datetime-picker.html) | 支持两种组件，通过组件自身的`type`可配置选择器类型 |
+| time-picker  | [TimePicker 时间选择器](https://element-plus-docs.bklab.cn/zh-CN/component/time-picker.html) |                                                    |
+| rate         | [Rate 评分](https://element-plus-docs.bklab.cn/zh-CN/component/rate.html) |                                                    |
+| color-picker | [ColorPicker 颜色选择器](https://element-plus-docs.bklab.cn/zh-CN/component/color-picker.html) |                                                    |
+| slider       | [Slider 滑块](https://element-plus-docs.bklab.cn/zh-CN/component/slider.html) |                                                    |
+| switch       | [Switch 开关](https://element-plus-docs.bklab.cn/zh-CN/component/switch.html) |                                                    |
+| text         | -                                                            | 文本类组件                                         |
+| slot         | -                                                            | 自定义表单组件                                     |
+
+:::
 
 
 

@@ -21,6 +21,8 @@ export default defineComponent({
     const renderbtns = shallowRef<Array<BtnTypeLabel>>([]);
 
     effect(() => {
+      console.log('effect');
+
       /* 处理有效buttons */
       if (Array.isArray(buttons.value) && buttons.value.length) {
         renderbtns.value = [];
@@ -41,6 +43,7 @@ export default defineComponent({
         });
       }
     });
+
     return {
       ...toRefs(props),
       renderbtns,
@@ -86,7 +89,7 @@ export default defineComponent({
 
     // 组件渲染器
     const componentRenderer = (item: ItemRowProps) => {
-      const { label, prop, formItem, type, options, attrs:orgAttrs } = item;
+      const { label, prop, formItem, type, options, attrs: orgAttrs, } = item;
 
       return (
         <el-form-item
@@ -114,12 +117,18 @@ export default defineComponent({
     const layoutRenderer = () => (
       <>
         {formOptions.map((item: ItemRowProps) => {
-          const { col } = item;
-          return isGrid ? (
+          const { col, prop, vIf } = item;
+          const isShow = vIf instanceof Function ? vIf(formValue) : vIf;
+
+          // console.log('vif===================', prop, !vif);
+
+          if (isShow) return null;
+          if (isGrid) return (
             <el-col key={item.prop} span={col || globalCol}>
               {componentRenderer(item)}
             </el-col>
-          ) : (
+          )
+          return (
             componentRenderer(item)
           );
         })}
