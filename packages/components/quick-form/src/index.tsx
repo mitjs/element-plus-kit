@@ -46,6 +46,8 @@ export default defineComponent({
     ); /* 第一个设置栅格的表单项 */
 
     const globalCol = computed(() => {
+      console.log('globalCol', col.value || fCol);
+
       return col.value || fCol;
     }); /* 计算栅格布局值 */
 
@@ -121,6 +123,10 @@ export default defineComponent({
       // 某一表单项值改变时触发
       onChange: (...args) => {
         console.log('qf-', ...args);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24d9a35d20f5b0c3f1dbcf45fd634859e1d3bf82
         emit("change", ...args)
       },
       // 默认按钮事件触发
@@ -169,7 +175,7 @@ export default defineComponent({
           <QFormItem
             formValue={model}
             formOptions={formOptions}
-            isGrid={isGrid}
+            isGrid={!!globalCol}
             globalCol={globalCol}
             buttons={buttons}
           />

@@ -1,14 +1,23 @@
 <template>
     <div class="2222">
         <quick-form ref="formRef" require-asterisk-position="right" label-width="120px" :model="FormValue"
-            :form-options="formOptions" @validate="onValidate" required @change="onChange" :col="12"
-            :buttons="['search', 'reset']" @search="onSearch" @input="onInput">
-            <!-- :col="12" -->
+            :form-options="formOptions" @validate="onValidate" required @change="onChange" :col="6"
+            :buttons="['search', { label: 'ss', type: 'cancel' }, 'reset']" @search="onSearch" @input="onInput">
             <!--  :rules="rules"  -->
             <!-- <QuickTable></QuickTable> -->
             <!--  :rules="rules"  -->
-            <!-- <button>123</button> -->
+            <!-- <el-button>123</el-button>
+            <el-button>123</el-button>
+            <el-button>123</el-button>
+            <el-button>123</el-button>
+            <el-button>123</el-button> -->
         </quick-form>
+
+        <el-radio-group v-model="radio1">
+            <el-radio label="a1">Option 1</el-radio>
+            <el-radio label="a2">Option 2</el-radio>
+        </el-radio-group>
+        {{ radio1 }}
     </div>
 </template>
 
@@ -17,6 +26,7 @@ import { ref, reactive, h } from "vue";
 import type { FormRules } from "element-plus";
 import { QuickForm, QuickTable } from "meetjs-design";
 
+const radio1 = ref('a1')
 const FormValue = ref({
     name: "",
     sex: 1,
@@ -30,21 +40,7 @@ const opts2 = [
 ];
 const opts = ref(opts1);
 const formOptions = ref([
-    {
-        type: "input",
-        label: "2222",
-        prop: "name",
-        // col: 24,
-        formItem: { required: false, "label-suffix": "" },
-        attrs: {
-            onInput: () => {
-                console.log("input", 8789789);
-            },
-            onBlur: (e: any) => {
-                console.log("onBlur", e);
-            },
-        },
-    },
+
     { type: "input-number", label: "年龄", prop: "count" },
     {
         type: "radio",
@@ -64,31 +60,68 @@ const formOptions = ref([
             child: {
                 border: true
             }
+        },
+        vIf: (formValue: any) => {
+            console.log("vIf---sex", formValue.sex, formValue.sex == 1, radio1.value);
+            return radio1.value == 'a1';
         }
     },
-    { type: "select", label: "select", prop: "region", options: opts.value },
+    {
+        type: "select", label: "select", prop: "region", options: opts.value,
+        vIf: (vals: any) => {
+            return vals.sex == 1;
+        }
+    },
     {
         type: "select-v2",
         label: "select-v2",
         prop: "count1",
-        options: opts.value,
+        options: opts.value, vIf: (vals: any) => {
+            return vals.sex == 1;
+        }
     },
-    { type: "cascader", label: "cascader", prop: "count2" },
-    { type: "time-select", label: "time-select", prop: "count3" },
+    {
+        type: "cascader", label: "cascader", prop: "count2", vIf: (vals: any) => {
+            return vals.sex == 1;
+        }
+    },
+    {
+        type: "time-select", label: "time-select", prop: "count3", vIf: (vals: any) => {
+            return vals.sex == 1;
+        }
+    },
     {
         type: "date-picker",
         label: "date-picker",
         prop: "count4",
-        component: { type: "datetime" },
+        component: { type: "datetime" }, vIf: (vals: any) => {
+            return vals.sex == 1;
+        }
     },
     { type: "time-picker", label: "time-picker", prop: "count5" },
     { type: "color-picker", label: "color-picker", prop: "count6" },
     { type: "rate", label: "rate", prop: "count7" },
     { type: "slider", label: "slider", prop: "count8" },
     { type: "switch", label: "switch", prop: "count9" },
-    { type: "textarea", label: "textarea", prop: "textarea" },
     { type: "text", label: "text", prop: "count10" },
     { type: "slot", label: "slot", prop: "count11" },
+    { type: "textarea", label: "textarea", prop: "textarea" },
+    {
+        type: "input",
+        label: "2222",
+        prop: "name",
+        // col: 24,
+        formItem: { required: false, "label-suffix": "" },
+        attrs: {
+            onInput: () => {
+                console.log("input", 8789789);
+            },
+            onBlur: (e: any) => {
+                console.log("onBlur", e);
+            },
+        },
+    },
+
 ]);
 const formRef = ref<any>(null);
 
@@ -104,7 +137,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
     }
 };
 const onInput = (value: any, prop: string) => {
-    console.log("onInput====", value, prop);
+    // console.log("onInput====", value, prop);
 };
 
 const rules = reactive<FormRules<{ [k: string]: any }>>({
@@ -171,10 +204,14 @@ const onValidate = (prop: any, isValid: boolean, message: string) => {
 };
 
 const onChange = (...arg: any) => {
-    console.log("onChange==== ", ...arg);
+    // console.log("onChange==== ", ...arg);
 };
 const onSearch = () => {
     console.log(FormValue.value);
+    formRef.value.validate((vaild) => {
+        console.log(vaild);
+
+    })
 };
 setTimeout(() => {
     console.log("formRef", formRef.value);

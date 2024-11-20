@@ -7,24 +7,7 @@ import type {
 import { VNode } from "vue";
 
 export type Numric = string | number;
-export type CompTypes =
-  | "input"
-  | 'textarea'
-  | "input-number"
-  | "select"
-  | "select-v2"
-  | "cascader"
-  | "radio"
-  | "checkbox"
-  | "time-select"
-  | "date-picker"
-  | "time-picker"
-  | "color-picker"
-  | "rate"
-  | "slider"
-  | "switch"
-  | "text"
-  | "slot";
+export type CompTypes = "input" | 'textarea' | "input-number" | "select" | "select-v2" | "cascader" | "radio" | "checkbox" | "time-select" | "date-picker" | "time-picker" | "color-picker" | "rate" | "slider" | "switch" | "text" | "slot";
 
 
 export type RenderComp<T = any> = {
@@ -47,6 +30,7 @@ export interface ItemRowProps {
   options: Array<IOptionRow>;
   formItem?: formItemProps;
   attrs?: any; //原始 CompTypes 组件属性及方法
+  vIf?: boolean | ((formValue: any) => boolean);
 }
 
 

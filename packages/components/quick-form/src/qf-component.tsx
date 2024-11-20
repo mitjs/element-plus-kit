@@ -25,12 +25,12 @@ export default defineComponent({
 
     const InputEventAblity: CompTypes[] = ['input', 'textarea', 'select', 'select-v2', "slider"]
     const BlurWithFocusEventAblity: CompTypes[] = ['input', 'textarea', 'input-number', 'select', 'select-v2', "time-select", "time-picker", 'date-picker', "color-picker"]
-    const ClearEventAblity: CompTypes[]=['input', 'textarea', 'select', 'select-v2']
-   
+    const ClearEventAblity: CompTypes[] = ['input', 'textarea', 'select', 'select-v2']
+
     const compEventRow = () => {
       let eventRow: any = {
-        onChange: (...arg:any) => {
-          console.log('comp',arg);
+        onChange: (...arg: any) => {
+          console.log('comp', arg);
           onChange(...arg, prop)
         },
       }
@@ -144,6 +144,7 @@ export default defineComponent({
         );
       },
       radio: () => {
+        const { button } = orgAttrs
         return (
           <el-radio-group
             v-model={formValue[prop]}
@@ -151,7 +152,7 @@ export default defineComponent({
             {...orgAttrs}
           >
             {options!.map((item: IOptionRow) => {
-              return <el-radio label={item.value}>{item.label}</el-radio>;
+              return button ? <el-radio-button label={item.value}>{item.label}</el-radio-button> : <el-radio label={item.value}>{item.label}</el-radio>;
             })}
           </el-radio-group>
         );
