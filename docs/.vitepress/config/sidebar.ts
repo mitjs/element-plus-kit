@@ -9,6 +9,7 @@ export default {
     },
   ],
   "/guide/": [
+    { text: "设计", link: "/guide/design" },
     {
       text: "指南",
       items: [
