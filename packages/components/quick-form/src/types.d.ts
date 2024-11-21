@@ -7,7 +7,7 @@ import type {
 import { VNode } from "vue";
 
 export type Numric = string | number;
-export type CompTypes = "input" | 'textarea' | "input-number" | "select" | "select-v2" | "cascader" | "radio" | "checkbox" | "time-select" | "date-picker" | "time-picker" | "color-picker" | "rate" | "slider" | "switch" | "text" | "slot";
+export type CompTypes = "input" | 'textarea' | "input-number" | "select" | "select-v2" | "cascader" | "radio" | "checkbox" | "tree-select" | "time-select" | "date-picker" | "time-picker" | "color-picker" | "rate" | "slider" | "switch" | "text" | "html" | "slot";
 
 
 export type RenderComp<T = any> = {
@@ -17,44 +17,35 @@ export type RenderComp<T = any> = {
 /**
  * options options类型声明
  */
-export interface IOptionRow {
+export type IOptionRow = {
   label: string;
   value: Numric;
-}
+  children?: Array<IOptionRow>;
+} & Indexable
 
-export interface ItemRowProps {
+export type ItemRowProps = {
   type: CompTypes;
-  label: () => VNode | string;
+  label: string | (() => VNode);
   prop: string;
   col?: number;
-  options: Array<IOptionRow>;
+  required?: boolean | (() => boolean);
+  options?: Array<IOptionRow>;
   formItem?: formItemProps;
   attrs?: any; //原始 CompTypes 组件属性及方法
-  vIf?: boolean | ((formValue: any) => boolean);
+  vIf?: boolean | ((formValue: Indexable) => boolean);
 }
-
-
 
 /**
  * 按钮组类型声明
  */
 export type BtnType = "search" | "reset" | "cancel" | "submit";
-export interface BtnTypeLabel {
+export type BtnTypeRow = {
   label: string;
   type: BtnType;
   icon?: string;
 }
-export type BtnTypeObj = BtnTypeLabel | BtnType;
+export type BtnTypeObj = BtnTypeRow | BtnType;
 export type Arrayable<T> = T | T[];
 
 // 日期类型格式
-export type DatePickerType =
-  | "date"
-  | "dates"
-  | "year"
-  | "month"
-  | "week"
-  | "datetime"
-  | "daterange"
-  | "monthrange"
-  | "datetimerange";
+export type DatePickerType = "date" | "dates" | "year" | "month" | "week" | "datetime" | "daterange" | "monthrange" | "datetimerange";

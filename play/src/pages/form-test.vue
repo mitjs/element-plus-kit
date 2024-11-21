@@ -31,6 +31,7 @@ const FormValue = ref({
     name: "",
     sex: 1,
     count10: "我是text",
+    html1: `<h3>我是html</h3>`
 });
 
 const opts1 = [{ label: "11", value: "111" }];
@@ -41,25 +42,31 @@ const opts2 = [
 const opts = ref(opts1);
 const formOptions = ref([
 
-    { type: "input-number", label: "年龄", prop: "count" },
+    {
+        type: "input-number", label: "年龄", prop: "count", required: () => {
+            return FormValue.value.sex == 1
+        },
+    },
     {
         type: "radio",
         label: "radio",
         prop: "sex",
+        required: false,
         options: [
             { label: "12", value: 1 },
             { label: "22", value: 2 },
         ],
+        attrs: {
+            button: true,
+        },
     },
     {
         type: "checkbox",
         label: "checkbox",
         prop: "checkbox",
         options: opts.value,
-        component: {
-            child: {
-                border: true
-            }
+        attrs: {
+            button: true,
         },
         vIf: (formValue: any) => {
             console.log("vIf---sex", formValue.sex, formValue.sex == 1, radio1.value);
@@ -103,15 +110,20 @@ const formOptions = ref([
     { type: "rate", label: "rate", prop: "count7" },
     { type: "slider", label: "slider", prop: "count8" },
     { type: "switch", label: "switch", prop: "count9" },
-    { type: "text", label: "text", prop: "count10" },
-    { type: "slot", label: "slot", prop: "count11" },
+    { type: "text", label: "text", prop: "count10", required: false, },
+    {
+        type: "html", label: "", col: 24, prop: "html1", required: false, formItem: {
+            'label-width': '80px'
+        }
+    },
+    { type: "slot", label: "slot", prop: "count11", required: false, },
     { type: "textarea", label: "textarea", prop: "textarea" },
     {
         type: "input",
         label: "2222",
         prop: "name",
         // col: 24,
-        formItem: { required: false, "label-suffix": "" },
+        formItem: { required: false, },
         attrs: {
             onInput: () => {
                 console.log("input", 8789789);

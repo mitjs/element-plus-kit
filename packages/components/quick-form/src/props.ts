@@ -17,18 +17,27 @@ export const QFromProps = {
     required: true,
     default: () => { },
   },
+  formOptions: {
+    type: Array as PropType<Array<ItemRowProps>>,
+    required: true,
+    default: () => [],
+  },
   rules: {
     type: Object,
     required: false,
     default: () => { },
   },
-  required: Boolean,
-  gutter: Number,
-  col: Number,
-  formOptions: {
-    type: Array as PropType<Array<ItemRowProps>>,
-    required: true,
-    default: () => [],
+  required: {
+    type: Boolean,
+    required: false,
+  },
+  gutter: {
+    type: Number,
+    required: false,
+  },
+  col: {
+    type: Number,
+    required: false,
   },
   buttons: {
     type: Array as PropType<Array<BtnTypeObj>>,

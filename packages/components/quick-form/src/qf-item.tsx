@@ -8,9 +8,10 @@ import {
 } from "vue";
 import QFormComponent from "./qf-component";
 import QFormButton from "./qf-button";
-import type { ItemRowProps, BtnTypeLabel, BtnTypeObj } from "./types";
+import type { ItemRowProps, BtnTypeRow, BtnTypeObj } from "./types";
 import { QFItemProps } from "./props";
 import { btnsRow, BtnsIconRow } from "./constants";
+import { isArray, isFunction, isString } from "lodash-es";
 
 export default defineComponent({
   props: QFItemProps,
@@ -18,13 +19,13 @@ export default defineComponent({
     const { buttons } = toRefs(props);
     const { formSlots }: Record<string, any> = inject("formObserver") as any;
 
-    const renderbtns = shallowRef<Array<BtnTypeLabel>>([]);
+    const renderbtns = shallowRef<Array<BtnTypeRow>>([]);
 
     effect(() => {
       console.log('effect');
 
       /* 处理有效buttons */
-      if (Array.isArray(buttons.value) && buttons.value.length) {
+      if (isArray(buttons.value) && buttons.value.length) {
         renderbtns.value = [];
         buttons.value.forEach((item: BtnTypeObj) => {
           if (typeof item === "string") {
@@ -37,7 +38,7 @@ export default defineComponent({
             }
           } else {
             if (Object.keys(btnsRow).includes(item.type)) {
-              renderbtns.value.push(item as BtnTypeLabel);
+              renderbtns.value.push(item as BtnTypeRow);
             }
           }
         });
@@ -94,15 +95,15 @@ export default defineComponent({
       return (
         <el-form-item
           key={prop}
-          label={typeof label == "string" ? label : null}
+          label={isString(label) ? label : null}
           prop={prop}
           {...formItem}
           v-slots={{
-            label: typeof label == "function" ? () => label() : null,
+            label: isFunction(label) ? () => label() : null,
           }}
         >
           <QFormComponent
-            label={typeof label == "string" ? label : ""}
+            label={isString(label) ? label : ""}
             type={type}
             prop={prop}
             formValue={formValue}
@@ -118,11 +119,10 @@ export default defineComponent({
       <>
         {formOptions.map((item: ItemRowProps) => {
           const { col, prop, vIf } = item;
-          const isShow = vIf instanceof Function ? vIf(formValue) : vIf;
-
-          // console.log('vif===================', prop, !vif);
+          const isShow = vIf && isFunction(vIf) ? vIf(formValue) : vIf;
 
           if (isShow) return null;
+
           if (isGrid) return (
             <el-col key={item.prop} span={col || globalCol}>
               {componentRenderer(item)}

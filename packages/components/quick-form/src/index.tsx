@@ -23,6 +23,7 @@ import {
 import { findFirstHaveColFormItem } from "./utils";
 import { QFromProps } from "./props";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
+import { has, isFunction, isString } from "lodash-es";
 
 export default defineComponent({
   name: "QuickForm",
@@ -46,8 +47,6 @@ export default defineComponent({
     ); /* 第一个设置栅格的表单项 */
 
     const globalCol = computed(() => {
-      console.log('globalCol', col.value || fCol);
-
       return col.value || fCol;
     }); /* 计算栅格布局值 */
 
@@ -59,8 +58,8 @@ export default defineComponent({
         formOptions.value.forEach((item) => {
           newRules[item.prop] = [
             {
-              required: true,
-              message: `${typeof item.label == "string" ? item.label : item.prop
+              required: has(item, "required") ? isFunction(item.required) ? item.required() : item.required : true,
+              message: `${isString(item.label) ? item.label : item.prop
                 }不能为空`,
               trigger: ["blur", "change"],
             },
@@ -123,10 +122,6 @@ export default defineComponent({
       // 某一表单项值改变时触发
       onChange: (...args) => {
         console.log('qf-', ...args);
-<<<<<<< HEAD
-=======
-
->>>>>>> 24d9a35d20f5b0c3f1dbcf45fd634859e1d3bf82
         emit("change", ...args)
       },
       // 默认按钮事件触发

@@ -2,6 +2,7 @@ import { defineComponent, renderSlot, toRefs, inject } from "vue";
 import type { IOptionRow, DatePickerType, CompTypes } from "./types";
 import { defaultPlaceholder } from "./utils";
 import { QFComponentProps } from "./props";
+import { has, isObject } from "lodash-es";
 
 const defaultStyle = {
   width: "100%",
@@ -10,7 +11,7 @@ export default defineComponent({
   name: "App",
   props: QFComponentProps,
   setup(props, { slots }) {
-    const { onChange, onInput, onClear, onBlur, onFocus, formSlots }: Record<string, any> = inject(
+    const { onChange, onInput, onClear, onBlur, onFocus, formSlots }: Indexable = inject(
       "formObserver"
     ) as any;
 
@@ -18,7 +19,7 @@ export default defineComponent({
       prop: string,
       type: CompTypes,
       label?: string,
-      orgAttrs?: Record<string, any>,
+      orgAttrs?: Indexable,
       options?: IOptionRow[],
       [K: string]: any
     } = props as any
@@ -63,7 +64,8 @@ export default defineComponent({
             style={defaultStyle}
             {...compEventRow()}
             {...orgAttrs}
-          ></el-input>
+          >
+          </el-input>
         );
       },
       "input-number": () => {
@@ -131,6 +133,20 @@ export default defineComponent({
           />
         );
       },
+      'tree-select': () => {
+        return (
+          <el-tree-select
+            v-model={formValue[prop]}
+            data={options}
+            clearable
+            placeholder={defaultPlaceholder(type, label)}
+            style={defaultStyle}
+            {...compEventRow()}
+            {...orgAttrs}
+          />
+        )
+      },
+
       "time-select": () => {
         return (
           <el-time-select
@@ -144,7 +160,7 @@ export default defineComponent({
         );
       },
       radio: () => {
-        const { button } = orgAttrs
+        const isBtnModel = isObject(orgAttrs) && has(orgAttrs, 'button') && orgAttrs.button == true;
         return (
           <el-radio-group
             v-model={formValue[prop]}
@@ -152,12 +168,15 @@ export default defineComponent({
             {...orgAttrs}
           >
             {options!.map((item: IOptionRow) => {
-              return button ? <el-radio-button label={item.value}>{item.label}</el-radio-button> : <el-radio label={item.value}>{item.label}</el-radio>;
+              return isBtnModel ? <el-radio-button {...item} label={item.value} >{item.label}</el-radio-button> : <el-radio {...item} label={item.value}>{item.label}</el-radio>;
             })}
           </el-radio-group>
         );
       },
       checkbox: () => {
+        const isBtnModel = isObject(orgAttrs) && has(orgAttrs, 'button') && orgAttrs.button == true
+        console.log('isBtnModel', isBtnModel);
+
         return (
           <el-checkbox-group
             v-model={formValue[prop]}
@@ -166,9 +185,7 @@ export default defineComponent({
           >
             {options!.map((item: IOptionRow) => {
               return (
-                <el-checkbox label={item.value}>
-                  {item.label}
-                </el-checkbox>
+                isBtnModel ? <el-checkbox-button label={item.value}>{item.label}</el-checkbox-button> : <el-checkbox label={item.value}>{item.label}</el-checkbox>
               );
             })}
           </el-checkbox-group>
@@ -189,7 +206,7 @@ export default defineComponent({
           datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
         };
         // const { type:compType }: { type: DatePickerType; [k: string]: any } = orgAttrs;
-        const compType: DatePickerType = orgAttrs && orgAttrs.type ? orgAttrs.type : 'date' as any
+        const compType: DatePickerType = isObject(orgAttrs) && has(orgAttrs, 'type') ? orgAttrs.type : 'date' as any
         return (
           <el-date-picker
             v-model={formValue[prop]}
@@ -255,6 +272,9 @@ export default defineComponent({
       },
       text: () => {
         return formValue[prop];
+      },
+      html: () => {
+        return <div v-html={formValue[prop]}></div>
       },
       slot: () => {
         return renderSlot(formSlots, prop!);
