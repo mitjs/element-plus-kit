@@ -31,7 +31,6 @@ export default defineComponent({
     const compEventRow = () => {
       let eventRow: any = {
         onChange: (...arg: any) => {
-          console.log('comp', arg);
           onChange(...arg, prop)
         },
       }
@@ -175,8 +174,6 @@ export default defineComponent({
       },
       checkbox: () => {
         const isBtnModel = isObject(orgAttrs) && has(orgAttrs, 'button') && orgAttrs.button == true
-        console.log('isBtnModel', isBtnModel);
-
         return (
           <el-checkbox-group
             v-model={formValue[prop]}

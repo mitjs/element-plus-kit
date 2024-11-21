@@ -121,7 +121,7 @@ export default defineComponent({
       validate: validate,
       // 某一表单项值改变时触发
       onChange: (...args) => {
-        console.log('qf-', ...args);
+        // console.log('qf-', ...args);
         emit("change", ...args)
       },
       // 默认按钮事件触发

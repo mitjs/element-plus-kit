@@ -6,34 +6,37 @@
 TSelect/single
 ::: -->
 
-
+## 基础用法
+:::demo
+QuickForm/base
+:::
 ## QuickForm API
 ### QuickForm  属性
 
 以下是`QuickForm` **新增属性**，Element-Plus 的 [Form 表单](https://element-plus-docs.bklab.cn/zh-CN/component/form.html#form-attributes) 原始配置均支持
 
-| **属性名**  | **说明**                                                     | **类型**                      | **默认值** |
-| ----------- | ------------------------------------------------------------ | ----------------------------- | ---------- |
-| model       | 表单数据对象                                                 | ^[object]`Record<string,any>` | -          |
-| formOptions | [表单项对象](#表单项对象Item)集合                            | `ItemRowProps[]`              | `[]`       |
-| required    | 是否为必填项，如不设置，则会根据校验规则确认                 | `boolean`                     | -          |
-| gutter      | 表单栅格间距                                                 | `number`                      | -          |
-| col         | 表单栅格占据的列数，配置后会开起栅格布局，默认不开启         | `number`                      | -          |
+| **属性名**  | **说明**                                                                                                               | **类型**                      | **默认值** |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ---------- |
+| model       | 表单数据对象                                                                                                           | ^[object]`Record<string,any>` | -          |
+| formOptions | [表单项对象](#表单项对象Item)集合                                                                                      | `ItemRowProps[]`              | `[]`       |
+| required    | 是否为必填项，如不设置，则会根据校验规则确认                                                                           | `boolean`                     | -          |
+| gutter      | 表单栅格间距                                                                                                           | `number`                      | -          |
+| col         | 表单栅格占据的列数，配置后会开起栅格布局，默认不开启                                                                   | `number`                      | -          |
 | buttons     | 默认按钮组集合<br/>默认支持按钮 `search` 、`reset`、`cancel`、`submit` 对应四种触发事件<br />[button配置](#button配置) | `BtnTypeObj`                  | -          |
 
 ####  表单项对象Item
 
-| 属性名   | 说明                                                         | 类型                                                         | 是否比填 |
-| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |
-| type     | [表单组件类型](#支持的组件类型)                              | ^[CompTypes]`'input'\|'textarea'\|'input-number'\|'select'\|'select-v2'\|'cascader'\|'tree-select'\|'radio'\|'checkbox'\|'time-select'\|'date-picker'\|'time-picker'\|'rate'\|'color-picker'\|'slider'\|'switch'\|'text'\|'html'\|'slot'` |          |
-| label    | 表单项文本                                                   | `string` \|`() => VNode`                                     | 是       |
-| prop     | 属性名                                                       | `string`                                                     | 是       |
-| required | 是否必填                                                     | `boolean`/ ^[Function]`() => boolean`                        | 否       |
-| vif      | 是否显示表单项，默认`true`                                   | `boolean` / ^[Function]`(values:any) => boolean`             | 否       |
-| formItem | [element-plus【form-item】相关配置](https://element-plus-docs.bklab.cn/zh-CN/component/form.html#formitem-api) |                                                              | 否       |
-| options  | **选择类组件**选项配置，形式如：`[{label:xxx,value:xxx}]`    | ^[IOptionRow]`intreface IOptionRow {label:string,value:Numric} ` | 否       |
-| col      | 表单栅格占据的列数                                           | `number`                                                     | 否       |
-| attrs    | `type` 对应原始组件的属性及方法                              | `object`                                                     | 否       |
+| 属性名   | 说明                                                                                                           | 类型                                                                                                                                                                                                                                      | 是否比填 |
+| -------- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| type     | [表单组件类型](#支持的组件类型)                                                                                | ^[CompTypes]`'input'\|'textarea'\|'input-number'\|'select'\|'select-v2'\|'cascader'\|'tree-select'\|'radio'\|'checkbox'\|'time-select'\|'date-picker'\|'time-picker'\|'rate'\|'color-picker'\|'slider'\|'switch'\|'text'\|'html'\|'slot'` |          |
+| label    | 表单项文本                                                                                                     | `string` \|`() => VNode`                                                                                                                                                                                                                  | 是       |
+| prop     | 属性名                                                                                                         | `string`                                                                                                                                                                                                                                  | 是       |
+| required | 是否必填                                                                                                       | `boolean`/ ^[Function]`() => boolean`                                                                                                                                                                                                     | 否       |
+| vif      | 是否显示表单项，默认`true`                                                                                     | `boolean` / ^[Function]`(values:any) => boolean`                                                                                                                                                                                          | 否       |
+| formItem | [element-plus【form-item】相关配置](https://element-plus-docs.bklab.cn/zh-CN/component/form.html#formitem-api) |                                                                                                                                                                                                                                           | 否       |
+| options  | **选择类组件**选项配置，形式如：`[{label:xxx,value:xxx}]`                                                      | ^[IOptionRow]`intreface IOptionRow {label:string,value:Numric} `                                                                                                                                                                          | 否       |
+| col      | 表单栅格占据的列数                                                                                             | `number`                                                                                                                                                                                                                                  | 否       |
+| attrs    | `type` 对应原始组件的属性及方法                                                                                | `object`                                                                                                                                                                                                                                  | 否       |
 
 
 
@@ -89,27 +92,27 @@ TSelect/single
 
 ::: tip 组件类型
 
-| 类型         | 对应Element-Plus组件                                         | 说明                                                         |
-| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| input        | [Input 输入框](https://element-plus-docs.bklab.cn/zh-CN/component/input.html) |                                                              |
-| textarea     | [Input 文本域](https://element-plus-docs.bklab.cn/zh-CN/component/input.html#%E6%96%87%E6%9C%AC%E5%9F%9F) |                                                              |
-| input-number | [Input Number 数字输入框](https://element-plus-docs.bklab.cn/zh-CN/component/input-number.html) |                                                              |
-| select       | [Select 选择器](https://element-plus-docs.bklab.cn/zh-CN/component/select.html) |                                                              |
-| select-v2    | [Virtualized Select 虚拟化选择器](https://element-plus-docs.bklab.cn/zh-CN/component/select-v2.html) |                                                              |
-| cascader     | [Cascader 级联选择器](https://element-plus-docs.bklab.cn/zh-CN/component/cascader.html) |                                                              |
-| tree-select  | [TreeSelect 树形选择](https://element-plus-docs.bklab.cn/zh-CN/component/tree-select.html) |                                                              |
-| radio        | [Radio 单选框](https://element-plus-docs.bklab.cn/zh-CN/component/radio.html) |                                                              |
-| checkbox     | [Checkbox 多选框](https://element-plus-docs.bklab.cn/zh-CN/component/checkbox.html) |                                                              |
-| time-select  | [TimeSelect 时间选择](https://element-plus-docs.bklab.cn/zh-CN/component/time-select.html) |                                                              |
+| 类型         | 对应Element-Plus组件                                                                                                                                                                                      | 说明                                                           |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| input        | [Input 输入框](https://element-plus-docs.bklab.cn/zh-CN/component/input.html)                                                                                                                             |                                                                |
+| textarea     | [Input 文本域](https://element-plus-docs.bklab.cn/zh-CN/component/input.html#%E6%96%87%E6%9C%AC%E5%9F%9F)                                                                                                 |                                                                |
+| input-number | [Input Number 数字输入框](https://element-plus-docs.bklab.cn/zh-CN/component/input-number.html)                                                                                                           |                                                                |
+| select       | [Select 选择器](https://element-plus-docs.bklab.cn/zh-CN/component/select.html)                                                                                                                           |                                                                |
+| select-v2    | [Virtualized Select 虚拟化选择器](https://element-plus-docs.bklab.cn/zh-CN/component/select-v2.html)                                                                                                      |                                                                |
+| cascader     | [Cascader 级联选择器](https://element-plus-docs.bklab.cn/zh-CN/component/cascader.html)                                                                                                                   |                                                                |
+| tree-select  | [TreeSelect 树形选择](https://element-plus-docs.bklab.cn/zh-CN/component/tree-select.html)                                                                                                                |                                                                |
+| radio        | [Radio 单选框](https://element-plus-docs.bklab.cn/zh-CN/component/radio.html)                                                                                                                             |                                                                |
+| checkbox     | [Checkbox 多选框](https://element-plus-docs.bklab.cn/zh-CN/component/checkbox.html)                                                                                                                       |                                                                |
+| time-select  | [TimeSelect 时间选择](https://element-plus-docs.bklab.cn/zh-CN/component/time-select.html)                                                                                                                |                                                                |
 | date-picker  | [DatePicker 日期选择器](https://element-plus-docs.bklab.cn/zh-CN/component/date-picker.html)<br/>[DateTimePicker 日期时间选择器](https://element-plus-docs.bklab.cn/zh-CN/component/datetime-picker.html) | 支持Element-Plus两种组件，通过组件自身的`type`可配置选择器类型 |
-| time-picker  | [TimePicker 时间选择器](https://element-plus-docs.bklab.cn/zh-CN/component/time-picker.html) |                                                              |
-| rate         | [Rate 评分](https://element-plus-docs.bklab.cn/zh-CN/component/rate.html) |                                                              |
-| color-picker | [ColorPicker 颜色选择器](https://element-plus-docs.bklab.cn/zh-CN/component/color-picker.html) |                                                              |
-| slider       | [Slider 滑块](https://element-plus-docs.bklab.cn/zh-CN/component/slider.html) |                                                              |
-| switch       | [Switch 开关](https://element-plus-docs.bklab.cn/zh-CN/component/switch.html) |                                                              |
-| text         | -                                                            | 渲染普通文本                                                 |
-| html         | -                                                            | 渲染html片段                                                 |
-| slot         | -                                                            | 自定义表单组件                                               |
+| time-picker  | [TimePicker 时间选择器](https://element-plus-docs.bklab.cn/zh-CN/component/time-picker.html)                                                                                                              |                                                                |
+| rate         | [Rate 评分](https://element-plus-docs.bklab.cn/zh-CN/component/rate.html)                                                                                                                                 |                                                                |
+| color-picker | [ColorPicker 颜色选择器](https://element-plus-docs.bklab.cn/zh-CN/component/color-picker.html)                                                                                                            |                                                                |
+| slider       | [Slider 滑块](https://element-plus-docs.bklab.cn/zh-CN/component/slider.html)                                                                                                                             |                                                                |
+| switch       | [Switch 开关](https://element-plus-docs.bklab.cn/zh-CN/component/switch.html)                                                                                                                             |                                                                |
+| text         | -                                                                                                                                                                                                         | 渲染普通文本                                                   |
+| html         | -                                                                                                                                                                                                         | 渲染html片段                                                   |
+| slot         | -                                                                                                                                                                                                         | 自定义表单组件                                                 |
 
 :::
 
@@ -120,7 +123,7 @@ TSelect/single
 ```ts
 type Numric = string | number;
 
-type CompTypes = "input" | 'textarea' | "input-number" | "select" | "select-v2" | "cascader" | "radio" | "checkbox" | "tree-select" | "time-select" | "date-picker" | "time-picker" | "color-picker" | "rate" | "slider" | "switch" | "text" | "slot";
+type CompTypes = "input" | 'textarea' | "input-number" | "select" | "select-v2" | "cascader" | "radio" | "checkbox" | "tree-select" | "time-select" | "date-picker" | "time-picker" | "color-picker" | "rate" | "slider" | "switch" | "text" | "html" | "slot";
 
 type BtnType = "search" | "reset" | "cancel" | "submit";
 

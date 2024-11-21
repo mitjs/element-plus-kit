@@ -16,8 +16,6 @@ export default defineComponent({
 
         /* 按钮事件 */
         const onEvent = (item: BtnTypeRow) => {
-            console.log(item);
-
             btnEvent(item.type)
         }
         return {
@@ -26,8 +24,6 @@ export default defineComponent({
     },
     render() {
         const { buttons, onEvent } = this;
-        console.log(buttons);
-
         return <>
             {buttons.map((item: BtnTypeRow) => {
                 return <el-button type="primary" icon={item.icon ? item.icon : null} plain={!['search', 'submit'].includes(item.type)} onClick={() => onEvent(item)}>{item.label}</el-button>

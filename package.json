@@ -34,6 +34,6 @@
   "dependencies": {
     "@meetjs-design/hooks": "workspace:^",
     "@meetjs-design/utils": "workspace:^",
-    "meetjs-design": "workspace:^"
+    "@meetjs/element-plus-kit": "workspace:^"
   }
 }

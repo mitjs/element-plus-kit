@@ -9,7 +9,7 @@
         </div>
     </ClientOnly>
 </template>
-  
+
 <script lang="ts" setup>
 import { onBeforeMount, shallowRef } from 'vue'
 
@@ -35,7 +35,7 @@ onBeforeMount(() => {
     }
 })
 </script>
-  
+
 <style lang="scss" scoped>
 // loading动画
 @keyframes lds-ripple {
@@ -75,7 +75,8 @@ onBeforeMount(() => {
 .example-component {
 
     // min-height: 86px;
-    // padding: 1.5rem;
+    padding: 1.5rem;
+
     &--spin {
         width: 36px;
         height: 36px;
@@ -112,5 +113,5 @@ onBeforeMount(() => {
             }
         }
     }
-}</style>
-  
+}
+</style>
