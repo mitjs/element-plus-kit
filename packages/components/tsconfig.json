@@ -12,6 +12,13 @@
     // "strictPropertyInitialization": false, // 关闭强制属性初始化
     // "strictNullChecks": false // 关闭强制非空检查
   },
-  "include": ["./**/*.tsx", "./**/*.ts", "./**/*.d.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./**/*.tsx",
+    "./**/*.ts",
+    "./**/*.vue",
+    "./**/*.d.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

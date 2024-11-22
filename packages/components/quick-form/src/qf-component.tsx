@@ -15,7 +15,7 @@ export default defineComponent({
       "formObserver"
     ) as any;
 
-    const { formValue, prop, type, label, orgAttrs, options }: {
+    const { formValue, prop, type, label, orgAttrs, options, }: {
       prop: string,
       type: CompTypes,
       label?: string,
@@ -23,7 +23,7 @@ export default defineComponent({
       options?: IOptionRow[],
       [K: string]: any
     } = props as any
-
+    const { readonly } = toRefs(props)
     const InputEventAblity: CompTypes[] = ['input', 'textarea', 'select', 'select-v2', "slider"]
     const BlurWithFocusEventAblity: CompTypes[] = ['input', 'textarea', 'input-number', 'select', 'select-v2', "time-select", "time-picker", 'date-picker', "color-picker"]
     const ClearEventAblity: CompTypes[] = ['input', 'textarea', 'select', 'select-v2']
@@ -62,6 +62,7 @@ export default defineComponent({
             placeholder={defaultPlaceholder(type, label)}
             style={defaultStyle}
             {...compEventRow()}
+            readonly={readonly.value}
             {...orgAttrs}
           >
           </el-input>
@@ -72,6 +73,7 @@ export default defineComponent({
           <el-input-number
             v-model={formValue[prop]}
             style={defaultStyle}
+            readonly={readonly.value}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -84,6 +86,7 @@ export default defineComponent({
           clearable
           placeholder={defaultPlaceholder(type, label)}
           style={defaultStyle}
+          readonly={readonly.value}
           {...compEventRow()}
           {...orgAttrs}
         ></el-input>
@@ -95,6 +98,8 @@ export default defineComponent({
             clearable
             placeholder={defaultPlaceholder(type, label)}
             style={defaultStyle}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           >
@@ -114,6 +119,8 @@ export default defineComponent({
             options={options}
             clearable
             style={defaultStyle}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -127,6 +134,8 @@ export default defineComponent({
             clearable
             placeholder={defaultPlaceholder(type, label)}
             style={defaultStyle}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -140,6 +149,8 @@ export default defineComponent({
             clearable
             placeholder={defaultPlaceholder(type, label)}
             style={defaultStyle}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -153,6 +164,8 @@ export default defineComponent({
             placeholder={defaultPlaceholder(type, label)}
             clearable
             style={defaultStyle}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -163,6 +176,8 @@ export default defineComponent({
         return (
           <el-radio-group
             v-model={formValue[prop]}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           >
@@ -177,6 +192,8 @@ export default defineComponent({
         return (
           <el-checkbox-group
             v-model={formValue[prop]}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           >
@@ -202,7 +219,6 @@ export default defineComponent({
           monthrange: "YYYY-MM",
           datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
         };
-        // const { type:compType }: { type: DatePickerType; [k: string]: any } = orgAttrs;
         const compType: DatePickerType = isObject(orgAttrs) && has(orgAttrs, 'type') ? orgAttrs.type : 'date' as any
         return (
           <el-date-picker
@@ -213,18 +229,23 @@ export default defineComponent({
             format={dateFormat[compType]}
             value-format={compType && compType !== "week" ? dateFormat[compType] : null}
             style={defaultStyle}
+            readonly={readonly.value}
             {...compEventRow()}
             {...orgAttrs}
           />
         );
       },
       "time-picker": () => {
+        const format = isObject(orgAttrs) && has(orgAttrs, 'format') ? orgAttrs.format : 'HH:mm:ss'
         return (
           <el-time-picker
             v-model={formValue[prop]}
             placeholder={defaultPlaceholder(type, label)}
             clearable
             style={defaultStyle}
+            readonly={readonly.value}
+            format={format}
+            value-format={format}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -234,6 +255,8 @@ export default defineComponent({
         return (
           <el-color-picker
             v-model={formValue[prop]}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -243,6 +266,7 @@ export default defineComponent({
         return (
           <el-rate
             v-model={formValue[prop]}
+            disabled={readonly.value}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -253,6 +277,8 @@ export default defineComponent({
           <el-slider
             v-model={formValue[prop]}
             style={{ ...defaultStyle, minWidth: "100px" }}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />
@@ -262,6 +288,8 @@ export default defineComponent({
         return (
           <el-switch
             v-model={formValue[prop]}
+            disabled={readonly.value}
+            class={{ 'qform-item-comp-readonly': readonly.value }}
             {...compEventRow()}
             {...orgAttrs}
           />

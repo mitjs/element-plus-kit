@@ -5,16 +5,18 @@ import {
   renderSlot,
   shallowRef,
   effect,
+  computed,
 } from "vue";
 import QFormComponent from "./qf-component";
 import QFormButton from "./qf-button";
 import type { ItemRowProps, BtnTypeRow, BtnTypeObj } from "./types";
-import { QFItemProps } from "./props";
+import { QFormItemProps } from "./props";
 import { btnsRow, BtnsIconRow } from "./constants";
 import { isArray, isFunction, isString } from "lodash-es";
+import QFormItem from './form-item.vue'
 
 export default defineComponent({
-  props: QFItemProps,
+  props: QFormItemProps,
   setup(props, { attrs }) {
     const { buttons } = toRefs(props);
     const { formSlots }: Record<string, any> = inject("formObserver") as any;
@@ -22,8 +24,6 @@ export default defineComponent({
     const renderbtns = shallowRef<Array<BtnTypeRow>>([]);
 
     effect(() => {
-      console.log('effect');
-
       /* 处理有效buttons */
       if (isArray(buttons.value) && buttons.value.length) {
         renderbtns.value = [];
@@ -61,6 +61,7 @@ export default defineComponent({
       renderbtns,
       formSlots,
       buttons,
+      readonly
     } = this;
 
     // 按钮组渲染器
@@ -87,49 +88,23 @@ export default defineComponent({
         return formButton;
       }
     };
-
-    // 组件渲染器
-    const componentRenderer = (item: ItemRowProps) => {
-      const { label, prop, formItem, type, options, attrs: orgAttrs, } = item;
-
-      return (
-        <el-form-item
-          key={prop}
-          label={isString(label) ? label : null}
-          prop={prop}
-          {...formItem}
-          v-slots={{
-            label: isFunction(label) ? () => label() : null,
-          }}
-        >
-          <QFormComponent
-            label={isString(label) ? label : ""}
-            type={type}
-            prop={prop}
-            formValue={formValue}
-            options={options}
-            orgAttrs={orgAttrs}
-          />
-        </el-form-item>
-      );
-    };
-
     // 布局渲染器
     const layoutRenderer = () => (
       <>
         {formOptions.map((item: ItemRowProps) => {
-          const { col, prop, vIf } = item;
+          const { col, vIf, ...otherItem } = item;
+
           const isShow = vIf && isFunction(vIf) ? vIf(formValue) : vIf;
 
           if (isShow) return null;
 
           if (isGrid) return (
             <el-col key={item.prop} span={col || globalCol}>
-              {componentRenderer(item)}
+              <QFormItem key={item.prop} {...otherItem} readonly={readonly} formValue={formValue} />
             </el-col>
           )
           return (
-            componentRenderer(item)
+            <QFormItem key={item.prop} {...otherItem} readonly={readonly} formValue={formValue} />
           );
         })}
         {buttonRenderer()}

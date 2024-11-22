@@ -24,6 +24,7 @@ import { findFirstHaveColFormItem } from "./utils";
 import { QFromProps } from "./props";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import { has, isFunction, isString } from "lodash-es";
+import '../style/index.scss'
 
 export default defineComponent({
   name: "QuickForm",
@@ -32,13 +33,11 @@ export default defineComponent({
   setup(props, { attrs, slots, emit, expose }) {
     const {
       col,
-      buttons,
       formOptions,
       required,
       rules,
-      model,
     } = toRefs(props);
-    const { gutter } = toRefs(attrs);
+    // const { gutter } = toRefs(attrs);
     const formRef = ref<FormInstance>();
     let newRules = reactive<FormRules<Record<string, any>>>({});
 
@@ -49,6 +48,10 @@ export default defineComponent({
     const globalCol = computed(() => {
       return col.value || fCol;
     }); /* 计算栅格布局值 */
+
+    watch(() => props.formOptions, (vals) => {
+      console.log(vals);
+    }, { deep: true })
 
     const isGrid = ref(globalCol.value ? true : false); /* 是否开启layout布局 */
 
@@ -159,12 +162,15 @@ export default defineComponent({
       attrs,
       gutter,
       globalCol,
+      readonly,
       buttons,
       onValidate,
     } = this;
 
     // 渲染formitem项
     const rowRenderer = () => {
+      // console.log(formOptions);
+
       return (
         <>
           <QFormItem
@@ -173,6 +179,7 @@ export default defineComponent({
             isGrid={!!globalCol}
             globalCol={globalCol}
             buttons={buttons}
+            readonly={readonly}
           />
         </>
       );

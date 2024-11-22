@@ -44,12 +44,16 @@ export const QFromProps = {
     required: false,
     default: () => [],
   },
+  readonly: {
+    type: Boolean,
+    required: false,
+  },
 };
 
 /**
  * form-item 组件 props参数
  */
-export const QFItemProps = {
+export const QFormItemProps = {
   formValue: {
     type: Object,
     default: () => { },
@@ -59,15 +63,31 @@ export const QFItemProps = {
     required: false,
     default: () => [],
   },
-  required: Boolean,
-  isGrid: Boolean,
-  globalCol: Number,
+  required: {
+    type: Boolean,
+    required: false,
+  },
+  isGrid: {
+    type: Boolean,
+    required: false,
+  },
+  globalCol: {
+    type: Number,
+    required: false,
+  },
+  readonly: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   buttons: {
     type: Array as PropType<Array<BtnTypeObj>>,
     required: false,
     default: () => [],
   },
 };
+
+
 
 /**
  * component 组件 props参数
@@ -96,5 +116,10 @@ export const QFComponentProps = {
   orgAttrs: {
     type: Object,
     default: () => { },
+  },
+  readonly: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 };
