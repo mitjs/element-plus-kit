@@ -11,6 +11,7 @@ import type { ColumnProps } from "./types";
 import QtTableColumn from "./qt-table-column";
 import QtColumnItem from "./qt-columns/column-item";
 import QtSubColumnItem from "./qt-columns/sub-column-item";
+import { has, isArray } from "lodash-es";
 export default defineComponent({
   props: {
     data: {
@@ -31,7 +32,7 @@ export default defineComponent({
 
     // provide("tableRef", tableRef);
     onMounted(() => {
-      console.log(tableRef.value);
+      // console.log(tableRef.value);
       expose({ ...tableRef.value });
     });
 
@@ -56,18 +57,18 @@ export default defineComponent({
     const sort = (prop: string, order: string) =>
       tableRef.value.sort(prop, order);
 
-    // expose({
-    //   setCurrentRow,
-    //   getSelectionRows,
-    //   toggleRowSelection,
-    //   clearSelection,
-    //   clearFilter,
-    //   toggleAllSelection,
-    //   toggleRowExpansion,
-    //   clearSort,
-    //   doLayout,
-    //   sort,
-    // });
+    expose({
+      setCurrentRow,
+      getSelectionRows,
+      toggleRowSelection,
+      clearSelection,
+      clearFilter,
+      toggleAllSelection,
+      toggleRowExpansion,
+      clearSort,
+      doLayout,
+      sort,
+    });
 
     return {
       tableRef,
@@ -83,15 +84,10 @@ export default defineComponent({
     return (
       <>
         <el-table ref="tableRef" data={data} {...attrs} v-slots={tSlots}>
-          {columns.map((col: ColumnProps) => {
-            if (
-              col.children &&
-              Array.isArray(col.children) &&
-              col.children.length
-            )
-              return <QtSubColumnItem column={col}></QtSubColumnItem>;
+          {isArray(columns) ? columns.map((col: ColumnProps) => {
+            if (has(col, "children") && isArray(col.children)) return <QtSubColumnItem column={col}></QtSubColumnItem>;
             return <QtColumnItem column={col}></QtColumnItem>;
-          })}
+          }) : <></>}
         </el-table>
       </>
     );

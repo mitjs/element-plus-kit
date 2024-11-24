@@ -1,5 +1,5 @@
 import { defineComponent, toRefs, renderSlot, inject } from "vue";
-import './index.scss'
+
 export default defineComponent({
     name: "Header",
     props: {
@@ -14,16 +14,18 @@ export default defineComponent({
         }
     },
     render() {
-        const { slots: { header, headerLeft, headerRight }, slots, title } = this
+        const { slots: { theader, headerLeft, headerRight }, slots, title } = this
+        // console.log('header slots---------', slots);
+
         const renderHeader = () => {
-            return <>
-                <div>{headerLeft ? renderSlot(slots, 'headerLeft') : title}</div>
+            return <div class='quick-table-header'>
+                <div class={{ 'qt-left-title': !!title }}>{headerLeft ? renderSlot(slots, 'headerLeft') : title}</div>
                 <div>{headerRight ? renderSlot(slots, 'headerRight') : null}</div>
-            </>
+            </div>
         }
 
-        return <div class='quick-table-header'>
-            {header ? renderSlot(slots, 'header') : headerLeft || headerRight ? renderHeader() : null}
-        </div>
+        return <>
+            {theader ? renderSlot(slots, 'theader') : headerLeft || headerRight ? renderHeader() : null}
+        </>
     }
 })

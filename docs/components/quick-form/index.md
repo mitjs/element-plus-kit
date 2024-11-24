@@ -124,20 +124,19 @@ QuickForm/readonly-form
 
 ### QuickForm 插槽
 
-| **事件名** | **说明**                            | **子标签** |
-| ---------- | ----------------------------------- | ---------- |
-| default    | 自定义默认内容                      | FormItem   |
-| `[prop]`   | options中配置任一表单项对象中的prop |            |
-|            |                                     |            |
+| **事件名** | **说明**                            |
+| ---------- | ----------------------------------- |
+| default    | 自定义按钮区域内容                  |
+| `[prop]`   | options中配置任一表单项对象中的prop |
 
 #### button配置
 
-| 按钮类型 | 触发对应事件 |     |
-| -------- | ------------ | --- |
-| search   | search       |     |
-| reset    | reset        |     |
-| cancel   | cancel       |     |
-| submit   | submit       |     |
+| 按钮类型 | 触发对应事件 |
+| -------- | ------------ |
+| search   | search       |
+| reset    | reset        |
+| cancel   | cancel       |
+| submit   | submit       |
 
 
 

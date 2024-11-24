@@ -114,4 +114,16 @@ onBeforeMount(() => {
         }
     }
 }
+
+:deep() {
+    .vp-doc {
+        table {
+            margin: 0;
+        }
+
+        >table {
+            margin: 20px auto;
+        }
+    }
+}
 </style>

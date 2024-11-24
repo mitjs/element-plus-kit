@@ -8,11 +8,20 @@ import {
   inject,
   defineExpose,
   onMounted,
+  computed,
+  ComputedRef,
+  WritableComputedRef,
+  effect,
 } from "vue";
+import { ElConfigProvider,} from "element-plus";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
 import QtHeader from "./qt-header";
 import QtPagnation from "./qt-pagination";
 import QtTable from "./qt-table";
 import type { ColumnProps, IPageProps } from "./types";
+import '../style/index.scss'
+import { has } from "lodash-es";
+
 export default defineComponent({
   props: {
     title: String,
@@ -44,17 +53,23 @@ export default defineComponent({
       emit("page-change", page, type);
     };
 
+    const newCols= computed(()=>{
+      if(props.columns.some((item:any)=>item.prop==='action')) return props.columns
+      if(has(slots,'action')) return props.columns.concat([{ label: "操作", prop: "action",minWidth:150 }])
+      return props.columns
+    })
+
     const quickTableRef = ref();
-    // setTimeout(() => {
-    //   console.log('',quickTableRef);
-    // }, 1e3);
+ 
     onMounted(() => {
-      console.log("22222", quickTableRef);
+      // console.log("22222", quickTableRef);
     });
+
     expose({ ...quickTableRef.value });
-    // defineExpose({ ...quickTableRef });
+
     return {
       quickTableRef,
+      newCols,
       ...toRefs(props),
       attrs,
       slots,
@@ -62,7 +77,6 @@ export default defineComponent({
     };
   },
   render() {
-    //
     const {
       quickTableRef,
       title,
@@ -72,29 +86,35 @@ export default defineComponent({
       page,
       pageConfig,
       total,
-      slots: { header, headerLeft, headerRight, pagaination, ...tableSlots },
+      slots,
+      newCols,
+      slots: { theader, headerLeft, headerRight, tfooter, ...tableSlots },
       pageChange,
     } = this;
-
+    // newCols,slots,
+      // console.log('----',has(slots,'tfooter'));
+      
     return (
       <>
-        <QtHeader title={title} v-slots={{ header, headerLeft, headerRight }} />
+        <ElConfigProvider locale={zhCn}>
+        <QtHeader title={title} v-slots={{ theader, headerLeft, headerRight }} />
         <QtTable
           ref="quickTableRef"
           data={data}
           {...attrs}
-          columns={columns}
+          columns={newCols}
           v-slots={tableSlots}
         />
-        {pagaination || page ? (
+        {has(slots,'tfooter') || page ? (
           <QtPagnation
             v-model:page={page}
-            total={total}
             {...pageConfig}
             onPage-change={pageChange}
-            v-slots={pagaination}
+            v-slots={{tfooter}}
           />
         ) : null}
+        </ElConfigProvider>
+       
       </>
     );
   },

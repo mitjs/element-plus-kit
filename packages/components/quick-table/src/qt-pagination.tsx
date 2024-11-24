@@ -7,8 +7,8 @@ import {
   PropType,
   computed,
 } from "vue";
-import "./index.scss";
 import type { IPageProps } from "./types";
+import { has } from "lodash-es";
 
 export default defineComponent({
   props: {
@@ -35,7 +35,7 @@ export default defineComponent({
       <el-pagination
         v-model:current-page={page.value.current}
         v-model:pageSize={page.value.size}
-        total={props.total}
+        total={page.value.total}
         background
         {...attrs}
         onCurrent-change={currentChange}
@@ -43,6 +43,8 @@ export default defineComponent({
       />
     );
 
+   
+    
     return {
       ...toRefs(props),
       slots,
@@ -52,16 +54,19 @@ export default defineComponent({
   render() {
     const {
       total,
-      slots: { pagaination },
+      slots,
+      slots: { tfooter },
       renderPagination,
     } = this;
-
+    // console.log('footer slots---------', slots);
     return (
+      <>
+      { tfooter? renderSlot(this.slots, "tfooter"): 
       <div class="quick-table-pagination">
-        {pagaination
-          ? renderSlot(this.slots, "pagaination")
-          : renderPagination()}
-      </div>
+          {renderPagination()}
+      </div>}
+      </>
+     
     );
   },
 });

@@ -6,7 +6,7 @@ export default defineComponent({
     column: {
       type: Object as PropType<ColumnProps>,
       required: true,
-      default: () => {},
+      default: () => { },
     },
   },
   setup(props) {
@@ -23,6 +23,9 @@ export default defineComponent({
       colSlots,
     } = this;
 
+    console.log("colSlots--------------------", colSlots,);
+
+
     return (
       <>
         {/* {
@@ -36,7 +39,7 @@ export default defineComponent({
         {/* <el-table-column prop="date" label="Date" width="150" /> */}
         <el-table-column prop={prop} {...property} v-slots={slot}>
           {Object.keys(colSlots).includes(prop)
-            ? renderSlot(colSlots, prop)
+            ? renderSlot(colSlots, 'default')
             : null}
         </el-table-column>
       </>

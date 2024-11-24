@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 import { ref, reactive, h } from "vue";
 import type { FormRules } from "element-plus";
-import { QuickForm, QuickTable } from "meetjs-design";
+import { QuickForm, QuickTable } from "@meetjs/element-plus-kit";
 
 const radio1 = ref('a1')
 const FormValue = ref({

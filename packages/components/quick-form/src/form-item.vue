@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import { isArray, isFunction, isString } from "lodash-es";
-import { defineProps, toRefs, watch } from 'vue'
+import { isFunction, isString } from "lodash-es";
+import { defineProps, toRefs, } from 'vue'
 import type { ItemRowProps } from './types'
 import QFormComp from './qf-component'
 

@@ -1,5 +1,6 @@
 import { defineComponent, toRefs, PropType } from "vue";
 import type { ColumnProps } from './types'
+import { has } from "lodash-es";
 
 export default defineComponent({
     props: {
@@ -10,7 +11,6 @@ export default defineComponent({
         }
     },
     setup(props) {
-
         return {
             ...toRefs(props)
         }
@@ -29,9 +29,9 @@ export default defineComponent({
             {/* <el-table-column prop="date" label="Date" width="150" /> */}
             <el-table-column label={column.label}>
                 {
-                    column.children.map((col: ColumnProps) => {
+                    has(column, 'children') && Array.isArray(column.children) ? column.children.map((col: ColumnProps) => {
                         <el-table-column prop="state" label="State" width="120" />
-                    })
+                    }) : <></>
                 }
             </el-table-column>
         </>

@@ -1,22 +1,27 @@
 <template>
     <div class="">
-        <QuickTable ref="qtableRef" :title="title" stripe :data="data" :columns="columns" v-model:page="page" :total="total"
-            :page-config="pageConfig" @page-change="pageChange" @select="onSelect" @sort-change="onSortChange">
+        <QuickTable ref="qtableRef" :title="title" stripe :data="data" :columns="columns" v-model:page="page"
+            :total="total" :page-config="pageConfig" @page-change="pageChange" @select="onSelect"
+            @sort-change="onSortChange">
+
             <template #headerRight>
                 <h4>headerRight</h4>
             </template>
             <!-- <template #name12="{ row }"> <a href="weixin://dl/business/?appid=wx1234567890">点击这里</a></template> -->
             <template #append>222</template>
             <template #empty>1111</template>
+            <template #action>
+                <el-button type="primary">添加</el-button>
+            </template>
         </QuickTable>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { h, ref, watch } from 'vue'
-import { QuickTable } from 'meetjs-design';
+import { QuickTable } from '@meetjs/element-plus-kit';
 const title = ref('sdfdsdsdf')
-const data = ref([{ name2: '张三', age: 30, name12: '213123', email: 'zhangsan@example.com' },
+const data = ref<any>([{ name2: '张三', age: 30, name12: '213123', email: 'zhangsan@example.com' },
 { name2: '李四', age: 30, email: 'zhangsan@example.com' },])
 const columns = ref([
     { type: 'index', width: 50 }, { type: 'selection', width: 50 },
@@ -66,12 +71,12 @@ const columns = ref([
 const page = ref({ current: 1, size: 10, })
 const total = ref(500)
 const pageConfig = ref({
-    layout: 'total, prev, pager, next, sizes,',
+    layout: 'prev, pager, next, sizes,',
     'prev-text': '上一页',
 })
 
 setTimeout(() => {
-    data.value.push({ name1: 'name1', name11: 'name1.1', name12: 'name1.2', name2: 'name2', age: 18, email: 'example.com' })
+    data.value.push({ name11: 'name1.1', name12: 'name1.2', name2: 'name2', age: 18, email: 'example.com' })
     title.value = 'New Title'
     console.log('%C', ' 333 ', qtableRef.value);
 
