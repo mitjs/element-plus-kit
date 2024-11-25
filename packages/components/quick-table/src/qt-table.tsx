@@ -33,7 +33,7 @@ export default defineComponent({
     // provide("tableRef", tableRef);
     onMounted(() => {
       // console.log(tableRef.value);
-      expose({ ...tableRef.value });
+      // expose({ ...tableRef.value });
     });
 
     provide<{

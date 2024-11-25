@@ -20,7 +20,7 @@ import { QuickTable } from '@meetjs/element-plus-kit'
 
 const title = ref('用户信息表')
 
-const page = ref({ current: 1, size: 10, total: 30 })
+const page = ref({ current: 2, size: 10, total: 30 })
 
 const pageConfig = ref({
     layout: ' prev, pager, next, sizes,total',

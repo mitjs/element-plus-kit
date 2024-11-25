@@ -12,7 +12,6 @@ export default defineComponent({
   },
   setup(props) {
     const { colSlots }: Record<string, any> = inject("TableObserver") as any;
-    // console.log("columns", props.column.slot, TableSlots);
     return {
       ...toRefs(props),
       colSlots,
@@ -23,47 +22,23 @@ export default defineComponent({
       column: { prop, slot, label, ...property },
       colSlots,
     } = this;
-    // console.log('--------------' + prop + '---------');
-
-    // console.log("column--------------------", slot,);
-    // console.log("colSlots--------------------", colSlots,);
-
-
     return (
       <>
-        {/* {
-                columns.map((col: ColumnProps) => {
-                    if(col.children&&Array.isArray(col.children){
-
-                    }
-                    return <el-table-column {...col} />
-                })
-            } */}
-        {/* <el-table-column prop="date" label="Date" width="150" /> */}
-        <el-table-column prop={prop} {...property}
+        <el-table-column prop={prop} label={label} {...property}
           v-slots={{
             header: (scope: any) => {
               if (has(colSlots, `${prop}.header`)) return renderSlot(colSlots, `${prop}.header`, scope)
 
-              if (slot && has(slot, 'header')) {
-                if (prop == 'age') {
-                  console.log('age slot ', slot, has(slot, 'header'));
-
-                }
-                return renderSlot(slot as any, 'header', scope)
-              }
+              if (slot && has(slot, 'header')) return (slot as any).header(scope)
               return label
 
             },
             default: (scope: any) => {
               if (has(colSlots, `${prop}`)) return renderSlot(colSlots, `${prop}`, scope)
-              if (slot && has(slot, 'default')) return renderSlot(slot as any, 'default', scope)
+              if (slot && has(slot, 'default')) return (slot as any).default(scope)
               return scope.row[prop]
             }
           }}>
-          {/* {Object.keys(colSlots).includes(prop)
-            ? renderSlot(colSlots, prop)
-            : null} */}
         </el-table-column>
       </>
     );

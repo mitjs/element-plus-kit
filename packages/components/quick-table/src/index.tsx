@@ -39,11 +39,8 @@ export default defineComponent({
       type: Object as PropType<IPageProps>,
     },
     pageConfig: {
-      type: Object,
-      default: () => ({
-        background: true,
-        layout: "total, sizes, prev, pager, next, jumper",
-      }),
+      type: Object as PropType<any>,
+      default: () => ({}),
     },
     total: Number,
   },
@@ -62,7 +59,6 @@ export default defineComponent({
     const quickTableRef = ref();
  
     onMounted(() => {
-      // console.log("22222", quickTableRef);
     });
 
     expose({ ...quickTableRef.value });
@@ -91,8 +87,6 @@ export default defineComponent({
       slots: { theader, headerLeft, headerRight, tfooter, ...tableSlots },
       pageChange,
     } = this;
-    // newCols,slots,
-      // console.log('----',has(slots,'tfooter'));
       
     return (
       <>
