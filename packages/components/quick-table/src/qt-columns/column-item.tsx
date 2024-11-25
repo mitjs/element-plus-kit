@@ -1,5 +1,6 @@
 import { defineComponent, toRefs, PropType, inject, renderSlot } from "vue";
-import type { ColumnProps } from "../types";
+import type { ColumnProps, ISlots } from "../types";
+import { has } from "lodash-es";
 
 export default defineComponent({
   props: {
@@ -19,11 +20,13 @@ export default defineComponent({
   },
   render() {
     const {
-      column: { prop, slot, ...property },
+      column: { prop, slot, label, ...property },
       colSlots,
     } = this;
+    // console.log('--------------' + prop + '---------');
 
-    console.log("colSlots--------------------", colSlots,);
+    // console.log("column--------------------", slot,);
+    // console.log("colSlots--------------------", colSlots,);
 
 
     return (
@@ -37,10 +40,30 @@ export default defineComponent({
                 })
             } */}
         {/* <el-table-column prop="date" label="Date" width="150" /> */}
-        <el-table-column prop={prop} {...property} v-slots={slot}>
-          {Object.keys(colSlots).includes(prop)
-            ? renderSlot(colSlots, 'default')
-            : null}
+        <el-table-column prop={prop} {...property}
+          v-slots={{
+            header: (scope: any) => {
+              if (has(colSlots, `${prop}.header`)) return renderSlot(colSlots, `${prop}.header`, scope)
+
+              if (slot && has(slot, 'header')) {
+                if (prop == 'age') {
+                  console.log('age slot ', slot, has(slot, 'header'));
+
+                }
+                return renderSlot(slot as any, 'header', scope)
+              }
+              return label
+
+            },
+            default: (scope: any) => {
+              if (has(colSlots, `${prop}`)) return renderSlot(colSlots, `${prop}`, scope)
+              if (slot && has(slot, 'default')) return renderSlot(slot as any, 'default', scope)
+              return scope.row[prop]
+            }
+          }}>
+          {/* {Object.keys(colSlots).includes(prop)
+            ? renderSlot(colSlots, prop)
+            : null} */}
         </el-table-column>
       </>
     );
