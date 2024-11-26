@@ -2,7 +2,7 @@
 layout: home
 hero:
   name: ElementPlus Kit
-  text: 快捷开发器
+  text: 让组件开发更自由，更简单
   tagline: 快捷，高效，简化
   actions:
     - theme: brand
