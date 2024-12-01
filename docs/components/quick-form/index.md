@@ -67,14 +67,14 @@ QuickForm/readonly-form
 
 以下是`QuickForm` **新增属性**，Element-Plus 的 [Form 表单](https://element-plus-docs.bklab.cn/zh-CN/component/form.html#form-attributes) 原始配置均支持
 
-| **属性名**  | **说明**                                                     | **类型**                      | **默认值** |
-| ----------- | ------------------------------------------------------------ | ----------------------------- | ---------- |
-| model       | 表单数据对象                                                 | ^[object]`Record<string,any>` | -          |
-| formOptions | [表单项对象](#表单项对象Item)集合                            | `ItemRowProps[]`              | `[]`       |
-| required    | 是否为必填项，如不设置，则会根据校验规则确认                 | `boolean`                     | `false`    |
-| gutter      | 表单栅格间距                                                 | `number`                      | -          |
-| col         | 表单栅格占据的列数，配置后会开起栅格布局，默认不开启         | `number`                      | -          |
-| readonly    | 是否只读                                                     | `boolean`                     | `false`    |
+| **属性名**  | **说明**                                                                                                               | **类型**                      | **默认值** |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ---------- |
+| model       | 表单数据对象                                                                                                           | ^[object]`Record<string,any>` | -          |
+| formOptions | [表单项对象](#表单项对象Item)集合                                                                                      | `ItemRowProps[]`              | `[]`       |
+| required    | 是否为必填项，如不设置，则会根据校验规则确认                                                                           | `boolean`                     | `false`    |
+| gutter      | 表单栅格间距                                                                                                           | `number`                      | -          |
+| col         | 表单栅格占据的列数，配置后会开起栅格布局，默认不开启                                                                   | `number`                      | -          |
+| readonly    | 是否只读                                                                                                               | `boolean`                     | `false`    |
 | buttons     | 默认按钮组集合<br/>默认支持按钮 `search` 、`reset`、`cancel`、`submit` 对应四种触发事件<br />[button配置](#button配置) | `BtnTypeObj`                  | -          |
 
 ####  表单项对象Item

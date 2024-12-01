@@ -74,10 +74,19 @@ QuickTable/slot-tfooter
 :::
 
 
+
+## 树形数据
+支持树类型的数据的显示。 当 row 中包含 `children` 字段时，被视为树形数据。 渲染嵌套数据需要 prop 的 `row-key`
+:::demo
+QuickTable/tree-table
+:::
+
+
+
 ## QuickTable API
 
 ### QuickTable  属性
-以下是 QuickTable 新属性，Element-Plus 的 [Table 表单](https://element-plus-docs.bklab.cn/zh-CN/component/table.html) 原始配置均支持
+以下是 QuickTable 新属性，Element-Plus 的 [Table 表格](https://element-plus-docs.bklab.cn/zh-CN/component/table.html) 原始配置均支持
 | **属性名**  | **说明**                             | **类型**                                             | **默认值** |
 | ----------- | ------------------------------------ | ---------------------------------------------------- | ---------- |
 | title       | 表格标题，居左                       | `string`                                             | -          |
@@ -88,11 +97,11 @@ QuickTable/slot-tfooter
 
 ### QuickTable 事件
 
-| **事件名**  | **说明**                                      | **类型**                                                     |
-| ----------- | --------------------------------------------- | ------------------------------------------------------------ |
+以下为 QuickTable 新增事件，Element-Plus 的 [Table 表格](https://element-plus-docs.bklab.cn/zh-CN/component/table.html) 默认事件均支持
+
+| **事件名**  | **说明**                                      | **类型**                                                        |
+| ----------- | --------------------------------------------- | --------------------------------------------------------------- |
 | page-change | 分页变化时触发,返回`page`对象和触发变化的类型 | ^[Function]`(page:object,type:'currentPage'\|'pageSize')=>void` |
-|             |                                               |                                                              |
-|             |                                               |                                                              |
 
 
 
@@ -110,3 +119,6 @@ QuickTable/slot-tfooter
 | `[prop]`        | `prop` 列单元格自定义的内容                                                                                                             |
 | `[prop]`.header | `prop` 列表头区域自定义的内容                                                                                                           |
 
+###  QuickTable 方法
+
+Element-Plus 的 [Table 表格](https://element-plus-docs.bklab.cn/zh-CN/component/table.html) 相关方法均支持

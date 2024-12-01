@@ -243,10 +243,6 @@ const formOptions = ref([
     { type: "slider", label: "滑块", prop: "count8" },
     { type: "switch", label: "开关", prop: "count9" },
     { type: "rate", label: "评分", prop: "count7" },
-    { type: "color-picker", label: "颜色选择器", prop: "count6" },
-    { type: "text", label: "渲染文本", prop: "count10" },
-    { type: "html", label: "渲染html", prop: "html1" },
-    { type: "slot", label: "自定插槽", prop: "customslot", },
 ]);
 
 const onSearch = () => {

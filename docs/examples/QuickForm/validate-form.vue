@@ -29,7 +29,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
     if (value === "") {
         callback(new Error("请输入内容"));
     } else {
-        if (FormValue.value.customVaild !== "") {
+        if (value !== "") {
             if (!formRef.value) return;
             formRef.value.validateField("customVaild", () => null);
         }
@@ -74,6 +74,9 @@ const formOptions = ref([
         type: "date-picker",
         label: "日期校验",
         prop: "date",
+        attrs: {
+            type: "datetime",
+        },
     },
     {
         type: "checkbox",

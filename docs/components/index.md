@@ -1,1 +1,1 @@
-# 组件
+目前element-plus-kit 组件库只支持vue3.0版本，后续会逐步增加对react和svelte的支持。
