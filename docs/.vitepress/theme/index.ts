@@ -6,7 +6,7 @@ import "element-plus/theme-chalk/dark/css-vars.css";
 // 图标并进行全局注册
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { NotFound, globals } from "../vitepress";
-
+import './styles/var.css'
 export default {
   ...theme,
   NotFound,
