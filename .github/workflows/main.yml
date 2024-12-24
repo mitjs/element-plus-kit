@@ -24,4 +24,4 @@ jobs:
 
       - name: Push to GitHub
         run: |
-          git push github master  # 如果你使用的是其他分支，请修改
+          git push github main  # 如果你使用的是其他分支，请修改
