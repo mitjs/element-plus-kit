@@ -1,0 +1,27 @@
+name: Sync Gitee to GitHub
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # 每小时运行一次，调整为你希望的频率
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "darkersu"
+          git config --global user.email "sxp_developer@163.com"
+
+      - name: Clone Gitee repository
+        run: |
+          git clone https://gitee.com/meetjs/element-plus-kit.git
+          cd your_repository
+          git remote add github https://github.com/mitjs/element-plus-kit.git
+
+      - name: Push to GitHub
+        run: |
+          git push github master  # 如果你使用的是其他分支，请修改
