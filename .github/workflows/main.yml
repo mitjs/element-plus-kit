@@ -2,7 +2,7 @@ name: Sync Gitee to GitHub
 
 on:
   schedule:
-    - cron: '0 * * * *'  # 每小时运行一次，调整为你希望的频率
+    - cron: '*/5 * * * *'  # 每小时运行一次，调整为你希望的频率
 
 jobs:
   sync:
