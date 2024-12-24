@@ -19,7 +19,7 @@ jobs:
       - name: Clone Gitee repository
         run: |
           git clone https://gitee.com/meetjs/element-plus-kit.git
-          cd your_repository
+          cd element-plus-ki
           git remote add github https://github.com/mitjs/element-plus-kit.git
 
       - name: Push to GitHub
