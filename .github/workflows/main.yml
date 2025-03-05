@@ -1,28 +1,74 @@
-name: Sync Gitee to GitHub
+name: 同步 gitee 仓库代码到 Github 仓库
 
 on:
+  # push:
+  #   branches: [ "main" ]
   schedule:
-    - cron: '0 0 * * 1'  # 每小时运行一次
+    - cron: '0 0 * * 1'
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  sync:
+  sync-gitee:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout GitHub repository
+      - name: Checkout Github Repo
         uses: actions/checkout@v2
-
+        with:
+          submodules: false  # 禁用子模块克隆
+          
       - name: Set up Git
         run: |
           git config --global user.name "darkersu"
           git config --global user.email "sxp_developer@163.com"
-
-      - name: Clone Gitee repository
+      - name: clone gitee repo
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git clone https://gitee.com/meetjs/elementplus-kit.git
-          cd element-plus-kit
-          git remote add github https://github.com/mitjs/element-plus-kit.git
-
-      - name: Push to GitHub
-        run: |
-          git push github main  # 如果你使用的是其他分支，请修改
+          echo :📥 正在克隆 Gitee 仓库的 ${GITEE_BRANCH} 分支...
+          git clone -b master https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/meetjs/elementplus-kit.git temp
+          echo "🔍 获取提交信息..."
+          LAST_SYNC_COMMIT=$(git log --grep="Sync from Gitee" -1 --format="%B" | grep -oP "Gitee Commit: \K[a-f0-9]+") || true
+          
+          cd temp
+          GITEE_LATEST_COMMIT=$(git rev-parse HEAD)
+          echo $GITEE_LATEST_COMMIT
+          cd ..
+          
+          echo "📋 准备工作目录..."
+          WORK_DIR="sync_workspace"
+          rm -rf $WORK_DIR
+          mkdir -p $WORK_DIR
+          echo "📋 复制文件到工作目录..."
+          cd temp
+          shopt -s extglob
+          cp -r !(*.git|.github) "../$WORK_DIR/"
+          cd ..
+          rm -rf temp
+          
+          echo "🔄 准备推送代码..."
+          cd $WORK_DIR
+         
+          # 初始化 git
+          git init
+          echo "🔄 开始准备推送代码到 GitHub..."
+          git add .
+          echo "✅ 已添加所有文件到暂存区"
+          git commit -m "Sync from Gitee $(date '+%Y-%m-%d %H:%M:%S')
+            Gitee Commit: ${GITEE_LATEST_COMMIT}"
+          echo "✅ 已创建提交记录"
+          # 推送到 GitHub
+          echo "🔗 正在配置 GitHub 远程仓库地址..."
+          git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/mitjs/element-plus-kit.git
+          echo "✅ 远程仓库配置完成"
+          echo "🌿 正在切换到 master 分支..."
+          git branch -M master
+          echo "✅ 分支切换完成"
+          echo "⬆️ 正在推送代码到 GitHub..."
+          git push -f origin master
+          echo "🎉 代码推送完成！"
+          
+          cd ..
+          rm -rf $WORK_DIR 
