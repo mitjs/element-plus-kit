@@ -1,0 +1,16 @@
+.quick-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .qt-left-title {
+        font-weight: 600;
+    }
+}
+
+.quick-table-pagination {
+    padding: 10px 0;
+    display: flex;
+    justify-content: flex-end;
+}
