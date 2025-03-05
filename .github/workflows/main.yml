@@ -25,7 +25,7 @@ jobs:
       - name: clone gitee repo
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.ELEMENT_PLUS_KIT_GH_TOKEN }}
         run: |
           echo :📥 正在克隆 Gitee 仓库的 ${GITEE_BRANCH} 分支...
           git clone -b master https://oauth2:${{ secrets.GITEE_TOKEN }}@gitee.com/meetjs/elementplus-kit.git temp
@@ -61,7 +61,7 @@ jobs:
           echo "✅ 已创建提交记录"
           # 推送到 GitHub
           echo "🔗 正在配置 GitHub 远程仓库地址..."
-          git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/mitjs/element-plus-kit.git
+          git remote add origin https://x-access-token:${{ secrets.ELEMENT_PLUS_KIT_GH_TOKEN }}@github.com/mitjs/element-plus-kit.git
           echo "✅ 远程仓库配置完成"
           echo "🌿 正在切换到 master 分支..."
           git branch -M master
