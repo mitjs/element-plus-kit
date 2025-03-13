@@ -1,0 +1,62 @@
+{
+  "name": "@meetjs/element-plus-kit",
+  "version": "0.1.1",
+  "description": "我只是一个 Element-Plus 开发加速器",
+  "main": "./dist/umd/index.umd.cjs",
+  "type": "module",
+  "module": "./dist/es/index.js",
+  "types": "./dist/types/core/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitjs/element-plus-kit.git"
+  },
+  "homepage": "https://element-plus-kit.netlify.app/",
+  "bugs": {
+    "url": "https://github.com/mitjs/element-plus-kit/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/umd/index.umd.cjs",
+      "types": "./dist/types/core/index.d.ts"
+    },
+    "./dist/": {
+      "import": "./dist/",
+      "require": "./dist/"
+    }
+  },
+  "sideEffects": [
+    "./dist/index.css"
+  ],
+  "scripts": {
+    "build": "run-s clean build-only move-style",
+    "build-only": "run-p build-es build-umd",
+    "build-es": "vite build --config vite.es.config.ts",
+    "build-umd": "vite build --config vite.umd.config.ts",
+    "move-style": "move-file ./dist/es/index.css ./dist/index.css",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "meetjs",
+    "element-plus",
+    "element-plus-kit",
+    "elementplus-kit",
+    "vue3",
+    "kit",
+    "component library"
+  ],
+  "devDependencies": {
+    "@elementplus-kit/components": "workspace:*",
+    "vite-plugin-dts": "3.9.1"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.19"
+  },
+  "author": "jiuge",
+  "license": "MIT"
+}

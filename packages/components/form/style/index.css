@@ -1,0 +1,44 @@
+.qform-item-comp-readonly {
+  --el-disabled-bg-color: #fff;
+  --el-disabled-text-color: var(--el-input-text-color);
+  --el-fill-color-light: #fff;
+  --el-color-info: var(--el-input-text-color);
+}
+
+.qform-item-comp-readonly .el-slider__runway.is-disabled .el-slider__bar {
+  background-color: var(--el-slider-main-bg-color);
+}
+
+.qform-item-comp-readonly .el-slider__runway.is-disabled .el-slider__button {
+  border-color: var(--el-slider-main-bg-color);
+}
+
+.qform-item-comp-readonly .el-checkbox__input.is-checked.is-disabled .el-checkbox__inner {
+  background-color: var(--el-checkbox-checked-bg-color);
+  border-color: var(--el-checkbox-checked-input-border-color);
+}
+
+.qform-item-comp-readonly .el-checkbox__input.is-checked.is-disabled .el-checkbox__inner:after {
+  border-color: var(--el-checkbox-checked-icon-color);
+}
+
+.qform-item-comp-readonly .el-checkbox__input.is-checked.is-disabled + span.el-checkbox__label {
+  color: var(--el-checkbox-checked-text-color);
+}
+
+.qform-item-comp-readonly .el-radio__input.is-disabled.is-checked .el-radio__inner {
+  border-color: var(--el-color-primary);
+  background: var(--el-color-primary);
+}
+
+.qform-item-comp-readonly .el-radio__input.is-disabled.is-checked .el-radio__inner::after {
+  background-color: var(--el-disabled-bg-color);
+}
+
+.qform-item-comp-readonly .el-radio__input.is-disabled.is-checked + span.el-radio__label {
+  color: var(--el-color-primary);
+}
+
+.qform-item-comp-readonly .el-radio__input.is-disabled + span.el-radio__label {
+  color: var(--el-radio-text-color);
+}
