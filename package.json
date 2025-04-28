@@ -12,6 +12,7 @@
   "scripts": {
     "play": "pnpm --filter @elementplus-kit/play dev",
     "doc": "pnpm --filter @elementplus-kit/docs dev",
+    "doc:build": "pnpm --filter @elementplus-kit/docs build",
     "build": "pnpm --filter @meetjs/element-plus-kit build"
   },
   "devDependencies": {
